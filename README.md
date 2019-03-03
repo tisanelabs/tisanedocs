@@ -72,6 +72,7 @@ For the moderation scenarios, we recommend adopting an approach that works best 
 * keep track of the frequency of abuses, with an automatic multiple strikes system, after which the account is temporarily suspended until a review of a human moderator
 * quietly alert the moderators
 * provide an option for the other participants not to see content with particular types of abuse or even blacklist the abusive poster, unless explicitly whitelisted ("you're dead to me"). This is likely to be the most annoying option for the trolls, as they can no longer complain about the authorities misusing their power; in this scenario, it's the other users that voluntarily took action against them
+* in case of a personal attack, allow the user that the attack seems to be aimed to, eliminate the message
 * censor the message completely or put it in a custody until reviewed by a human moderator. As a general rule, we do not recommend this option, however, it may be required in certain environments (e.g. for legal reasons)
 * append a taunting message (e.g. "Sorry, I'm having a bad day today. Please ignore what I'm going to say next"). We also do not recommend this, as it interferes with the natural communication
 
