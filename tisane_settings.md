@@ -1,5 +1,10 @@
 ### Tisane Settings Reference
 
+  * [Content Cues and Instructions](#content-cues-and-instructions)
+  * [Output Customization](#output-customization)
+  * [Standards and Formats](#standards-and-formats)
+  * [Signal to Noise Ranking](#signal-to-noise-ranking)
+
 The purpose of the settings structure is to:
 
 * provide cues about the content to improve the results
