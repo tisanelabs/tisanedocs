@@ -1,6 +1,6 @@
 # Tisane Embedded Library Documentation
 
-## Table of Contents
+**Table of Contents**
 
 - [Getting Started](#getting-started)
 - [What's in the Package](#whats-in-the-package)
