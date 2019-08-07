@@ -191,6 +191,7 @@ The Test Console configuration file is a standard .NET configuration file. The T
 * _DbPath_ holds the path of the root folder containing the language models.
 * _language_ contains the ISO code of the default language.
 * _content_ holds the content to load at the Test Console startup.
+* _PreloadLanguages_ contains a list of codes of the language models to preload
 * _lazy_loading_ determines whether the lazy loading mode is on. The language models are to be loaded fully when first accessed and the setting is _False_; if _True_, the lazy loading mode is on. The user cannot switch it off from the UI.
 * _trace_from_section_ contains the name of a section in the process where the tracer will start logging messages to the log file.
 * _log_name_ contains the name of the log file. If empty, the logging is turned off.
