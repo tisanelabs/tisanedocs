@@ -23,7 +23,7 @@ All settings are optional. To leave all settings to default, simply provide an e
 
 `domain_factors` (set of pairs made of strings and numbers) - provides a session-scope cues for the domains of discourse. This is a powerful tool that allows tailoring the result based on the use case. The format is, family ID of the domain as a key and the multiplication factor as a value (e.g. _"12345": 5.0_). For example, when processing text looking for criminal activity, we may want to set domains relevant to drugs, firearms, crime, higher: `"domain_factors": {"31058": 5.0, "45220": 5.0, "14112": 5.0, "14509": 3.0, "28309": 5.0, "43220": 5.0, "34581": 5.0}`. The same device can be used to eliminate noise coming from domains we know are irrelevant by setting the factor to a value lower than 1. 
 
-`when` (date string, format YYYY-MM-DD) - indicates when the utterance was uttered. (TO BE IMPLEMENTED) The purpose is to prune word senses that were not available at a particular point in time. For example, the words `troll`, `mail`, and `post` had nothing to do with the Internet 300 years ago because there was no Internet, and so if we are confident that the text originated hundreds of years ago, we should ignore the word senses that emerged only recently.
+`when` (date string, format YYYY-MM-DD) - indicates when the utterance was uttered. (TO BE IMPLEMENTED) The purpose is to prune word senses that were not available at a particular point in time. For example, the words _troll_, _mail_, and _post_ had nothing to do with the Internet 300 years ago because there was no Internet, and so if we are confident that the text originated hundreds of years ago, we should ignore the word senses that emerged only recently.
 
 #### Output Customization
 
