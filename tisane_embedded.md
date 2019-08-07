@@ -92,21 +92,57 @@ Requirements: Windows XP+ 64 bit
 
 Integration with the native C/C++ applications is available via low-level access to the Tisane library. The prototypes are in C, for the sake of compatibility. 
 
-See the header extract below. 
+Use `SetDbPath` to set the data path, then call `Parse` to process the text. 
+
+See the header extract with the function declarations below. 
 
 ```c
-// define the data path to the language models. MUST BE CALLED FIRST
+/**
+ * Define the data path to the language models. MUST BE CALLED FIRST
+ * @param dataRootPath the path to the language models root folder
+ */
 __stdcall __declspec(dllexport) void SetDbPath(const char *dataRootPath);
 
-// parse the specified content in the specified language using the specified settings
+/**
+ * Parse the specified content in the specified language using the specified settings
+ * @param language the language code
+ * @param content the text to parse (UTF-8 encoding)
+ * @param settings the settings according to the [settings specs](tisane_settings.md)
+ * @return a JSON structure according to the [response specs](tisane_response.md)
+ */
 __stdcall __declspec(dllexport) const char* Parse(const char * language, const char * content, const char * settings);
+
+/**
+ * **NOT ACTIVE YET**. Parse the specified content with session-scope modifications to the language model. 
+ * @param language the language code
+ * @param content the text to parse (UTF-8 encoding)
+ * @param settings the settings according to the [settings specs](tisane_settings.md)
+ * @param privateLexicon an array of JSON lexeme entries
+ * @param privateFamilies an array of JSON family entries
+ * @param privatePragmatics an array of JSON pragmatic / commonsense cue entries
+ * @return a JSON structure according to the [response specs](tisane_response.md)
+ */
 __stdcall __declspec(dllexport) const char* ParseCustomSession(const char * language, const char * content,
                                             const char * settings, const char * privateLexicon,
                                             const char * privateFamilies,
                                             const char * privatePragmatics);
 
-// a callback to display the progress while loading
-__stdcall __declspec(dllexport) void SetOutputBufferAllocationCallback(void __stdcall ptrAllocationCallback(uint32_t));
+/**
+ * Links a callback function used when a language model is loaded.
+ * @param ptrProgressCallback a void function with a double parameter; the parameter will be a number in range 0 thru 1 indicating the progress
+ */
+__declspec(dllexport) void SetProgressCallback(void __stdcall ptrProgressCallback(double));
+
+/**
+ * Activates the lazy loading mode.
+ */
+__declspec(dllexport) void ActivateLazyLoading();
+
+/**
+ * Gets whether the lazy loading mode is active.
+ * @return true if the lazy loading mode is active, false the lazy loading mode is not active.
+ */
+__declspec(dllexport) bool IsLazyLoadingActive();
 
 ```
 
