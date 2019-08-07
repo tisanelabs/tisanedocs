@@ -17,7 +17,7 @@ The language models or the runtime database use RocksDB, which stores multiple f
 
 _(language code)_-_(data store name)_
 
-For example, the data store containing the English phrasal patterns is: _en-phrase_.
+For example, the data store containing the English phrasal patterns is: _en-phrase_. The language codes come from [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes); if the language model is specific to a dialect or a script (e.g. Simplified Chinese vs. Traditional Chinese), the code may be followed by an [ISO-3166 two-letter code of a region or a country](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes), e.g. _ps_AF_ for Pashto (Afghanistan).
 
 The datastore _xx-spell_, storing the spellchecking dictionaries, is optional. If it does not exist, no spelling corrections will be performed. 
 
@@ -85,7 +85,7 @@ Language models are stored in folders. If you do not want to distribute all the 
 
 #### Tisane.TestConsole.exe.Config Reference
 
-The Test Console configuration file is a standard .NET configuration file. The Tisane-specific settings are under the _<appSettings>_ tag. 
+The Test Console configuration file is a standard .NET configuration file. The Tisane-specific settings are under the _\<appSettings\>_ tag. 
 
 * _DbPath_ holds the path of the root folder containing the language models
 * _language_ contains the ISO code of the default language
