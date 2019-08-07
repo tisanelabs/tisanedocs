@@ -29,22 +29,6 @@ deterministic (boolean, optional) - instructs whether to omit the n-best senses 
 expected_domains (array[string], optional) - a list of expected domains
 expected_hypernyms (array[string], optional) - a list of expected hypernyms
 when (string, optional) - when the utterance was uttered (date + time)
-format (enum, optional) - the format of the content. One of the following: unspecified / review / proofread / shortpost / longpost / dialogue.
-Default: unspecified
-Members
-unspecified - no special behaviour to enforce
-review - any kind of review. More aggressive scanning for sentiment phrases.
-proofread - a piece that was proofread. E.g. an article in a magazine, a book, a speech, etc.
-shortpost - a short post, e.g. tweet in social media
-longform - a long post
-dialogue - a part of a dialogue
-sentiment_analysis_type (enum, optional) - (RESERVED) the type of the sentiment analysis strategy.
-Default: products_and_services
-Members
-products_and_services - most common sentiment analysis of products and services
-entity - sentiment analysis with entities as targets
-creative_content_review - reviews of creative content
-political_essay - political essays
 fetch_definitions (boolean, optional) - if true, instructs to include definitions in the output (warning: slows down the application and increases the size of the response).
 debug (boolean, optional) - if true, the process tracing is set to on.
 paragraphs (boolean, optional) - if true, outputs paragraph information
@@ -67,4 +51,12 @@ Only the native Tisane standards (codes and descriptions) support style and sema
 * `iab_code` - IAB topic taxonomy code
 * `iab_description` - IAB topic taxonomy description
 * `native` - Tisane domain description, coming from the family description
+
+`sentiment_analysis_type` (string) - (RESERVED) the type of the sentiment analysis strategy. The values are:
+
+* `products_and_services` - most common sentiment analysis of products and services
+* `entity` - sentiment analysis with entities as targets
+* `creative_content_review` - reviews of creative content
+* `political_essay` - political essays
+
 
