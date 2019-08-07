@@ -90,4 +90,4 @@ The Test Console configuration file is a standard .NET configuration file. The T
 * _DbPath_ holds the path of the root folder containing the language models
 * _language_ contains the ISO code of the default language
 * _content_ holds the content to load at the Test Console startup
-* the rest of settings directly reference the attributes in the Tisane settings
+* the rest of settings directly reference the attributes in the [Tisane settings](tisane_settings.md)
