@@ -5,12 +5,13 @@ The purpose of the settings structure is to:
 * provide cues about the content to improve the results
 * select the sections of the output are to be shown
 * define standards and formats in use
+* define and calculate the signal to noise ranking
 
 The following sections will elaborate on each purpose. All settings are optional. To leave all settings to default, simply provide an empty object (`{}`).
 
-#### Content Cues
+#### Content Cues and Instructions
 
-`format` (string) - the format of the content. Some policies will be applied depending on the format. Certain logic in the underlying language models may require the content to be of a certain format (e.g. logic applied on the reviews may seek for sentiment more aggressively). The format values are:
+`format` (string) - the format of the content. Some policies will be applied depending on the format. Certain logic in the underlying language models may require the content to be of a certain format (e.g. logic applied on the reviews may seek for sentiment more aggressively). The default format is empty / undefined. The format values are:
 
 * `review` - a review of a product or a service or any other review. Normally, the underlying language models will seek for sentiment expressions more aggressively in reviews.
 * `dialogue` - a comment or a post which is a part of a dialogue. An example of a logic more specific to a dialogue is name calling. A single word like "idiot" would not be a personal attack in any other format, but it is certainly a personal attack when part of a dialogue.
@@ -18,6 +19,9 @@ The following sections will elaborate on each purpose. All settings are optional
 * `longform` - a long post or an article.
 * `proofread` - a post which was proofread. In the proofread posts, the spellchecking is switched off. 
 
+`disable_spellcheck` (boolean) - determines whether the automatic spellchecking is to be disabled. Default: `false`.
+
+`domain_factors` (set of pairs made of strings and numbers) - provides a session-scope cues for the domains of discourse. This is a powerful tool that allows tailoring the result based on the use case. The format is, family ID of the domain as a key and the multiplication factor as a value (e.g. _"12345": 5.0_). For example, when processing text looking for criminal activity, we may want to set domains relevant to drugs, firearms, crime, higher: `"domain_factors": {"31058": 5.0, "45220": 5.0, "14112": 5.0, "14509": 3.0, "28309": 5.0, "43220": 5.0, "34581": 5.0}`. The same device can be used to eliminate noise coming from domains we know are irrelevant by setting the factor to a value lower than 1. 
 
 abuse (boolean, optional) - instructs to output the abuse section (default: true)
 sentiment (boolean, optional) - instructs to output the sentiment_expressions section (default: true)
@@ -26,8 +30,6 @@ parses (boolean, optional) - instructs to output the parses section (phrases) (d
 words (boolean, optional) - instructs to output the elements section (words) (default: false)
 snippets (boolean, optional) - instructs to output the text snippets in the abuse, sentiment, and entities sections (default: false)
 deterministic (boolean, optional) - instructs whether to omit the n-best senses (default: false)
-expected_domains (array[string], optional) - a list of expected domains
-expected_hypernyms (array[string], optional) - a list of expected hypernyms
 when (string, optional) - when the utterance was uttered (date + time)
 fetch_definitions (boolean, optional) - if true, instructs to include definitions in the output (warning: slows down the application and increases the size of the response).
 debug (boolean, optional) - if true, the process tracing is set to on.
@@ -37,7 +39,7 @@ paragraphs (boolean, optional) - if true, outputs paragraph information
 
 `feature_standard` (string) - determines the standard used to output the features (grammar, style, semantics) in the response object. The standards we support are: 
 
-* `ud`: [Universal Dependencies tags](https://universaldependencies.org/u/pos/)
+* `ud`: [Universal Dependencies tags](https://universaldependencies.org/u/pos/) (default)
 * `penn`: [Penn treebank tags](https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html)
 * `native`: Tisane native feature codes
 * `description`: Tisane native feature descriptions
@@ -50,7 +52,7 @@ Only the native Tisane standards (codes and descriptions) support style and sema
 * `iptc_description` - IPTC topic taxonomy description
 * `iab_code` - IAB topic taxonomy code
 * `iab_description` - IAB topic taxonomy description
-* `native` - Tisane domain description, coming from the family description
+* `native` - Tisane domain description, coming from the family description (default)
 
 `sentiment_analysis_type` (string) - (RESERVED) the type of the sentiment analysis strategy. The values are:
 
@@ -59,4 +61,25 @@ Only the native Tisane standards (codes and descriptions) support style and sema
 * `creative_content_review` - reviews of creative content
 * `political_essay` - political essays
 
+#### Signal to Noise Ranking
 
+When we're studying a bunch of posts commenting on an issue or an article, we may want to prioritise the ones more relevant to the topic, and containing more reason and logic than emotion. This is what the signal to noise ranking is meant to achieve.
+
+The signal to noise ranking is made of two parts:
+
+1. Determine the most relevant concepts. This part may be omitted, depending on the use case scenario (e.g. we want to track posts most relevant to a particular set of issues). 
+2. Rank the actual post in relevance to these concepts. 
+
+To determine the most relevant concepts, we need to analyze the headline or the article itself. The headline is usually enough. We need two additional settings:
+
+* `keyword_features` (an object of strings with string values) - determines the features to look for in a word. When such a feature is found, the family ID is added to the set of potentially relevant family IDs. 
+* `stop_hypernyms` (an array of integers) - if a potentially relevant family ID has a hypernym listed in this setting, it will not be considered. For example, we extracted a set of nouns from the headline, but we may not be interested in abstractions or feelings. E.g. from a headline like _Fear and Loathing in Las Vegas_ we want _Las Vegas_ only. Optional.
+
+If `keyword_features` is provided in the settings, the response will have a special attribute, `relevant`, containing a set of family IDs. 
+
+At the second stage, when ranking the actual posts or comments for relevance, this array is to be supplied among the settings. The ranking is boosted when the domain, the hypernyms, or the families related to those in the `relevant` array are mentioned, when negative and positive sentiment is linked to aspects, and penalized when the negativity is not linked to aspects, or abuse of any kind is found. The latter consideration may be disabled, e.g. when we are looking for specific criminal content. When the `abuse_not_noise` parameter is specified and set to `true`, the abuse is not penalized by the ranking calculations. 
+
+To sum it up, in order to calculate the signal to noise ranking: 
+
+1. Analyze the headline with `keyword_features` and, optionally, `stop_hypernyms` in the settings. Obtain the `relevant` attribute.
+2. When analyzing the posts or the comments, specify the `relevant` attribute obtained in step 1. 
