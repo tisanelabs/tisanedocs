@@ -92,7 +92,17 @@ Requirements: Windows XP+ 64 bit
 
 Integration with the native C/C++ applications is available via low-level access to the Tisane library. The prototypes are in C, for the sake of compatibility. 
 
-Use `SetDbPath` to set the data path, then call `Parse` to process the text. 
+Use `SetDbPath` to set the data path and `LoadAnalysisLanguageModel` to load your language model, then call `Parse` to process the text. Also see the [response specs](tisane_response.md) and the [settings specs](tisane_settings.md).
+
+Example code:
+
+```c
+  SetDbPath("C:\\Tisane");
+  ActivateLazyLoading(); // it's a test, we don't want to spend a minute waiting for a tiny piece of text to be processed
+  LoadAnalysisLanguageModel("en");
+  cout << "\n" << Parse("en", "This is a test.", "{\"parses\":true, \"words\":true}");
+```
+
 
 See the header extract with the function declarations below. 
 
@@ -101,48 +111,60 @@ See the header extract with the function declarations below.
  * Define the data path to the language models. MUST BE CALLED FIRST
  * @param dataRootPath the path to the language models root folder
  */
-__stdcall __declspec(dllexport) void SetDbPath(const char *dataRootPath);
+__stdcall void SetDbPath(const char *dataRootPath);
 
-/**
- * Parse the specified content in the specified language using the specified settings
- * @param language the language code
- * @param content the text to parse (UTF-8 encoding)
- * @param settings the settings according to the [settings specs](tisane_settings.md)
- * @return a JSON structure according to the [response specs](tisane_response.md)
+/***
+ * Loads a language model associated with the specified language code. ONLY AFTER SetDbPath
+ * @param languageCode the code of the language to load
  */
-__stdcall __declspec(dllexport) const char* Parse(const char * language, const char * content, const char * settings);
+void LoadAnalysisLanguageModel(const char *languageCode);
 
-/**
- * **NOT ACTIVE YET**. Parse the specified content with session-scope modifications to the language model. 
- * @param language the language code
- * @param content the text to parse (UTF-8 encoding)
- * @param settings the settings according to the [settings specs](tisane_settings.md)
- * @param privateLexicon an array of JSON lexeme entries
- * @param privateFamilies an array of JSON family entries
- * @param privatePragmatics an array of JSON pragmatic / commonsense cue entries
- * @return a JSON structure according to the [response specs](tisane_response.md)
+/***
+ * Unloads a language model associated with the specified language code.
+ * @param languageCode the code of the language to unload
  */
-__stdcall __declspec(dllexport) const char* ParseCustomSession(const char * language, const char * content,
-                                            const char * settings, const char * privateLexicon,
-                                            const char * privateFamilies,
-                                            const char * privatePragmatics);
+void UnloadAnalysisLanguageModel(const char *languageCode);
 
 /**
  * Links a callback function used when a language model is loaded.
  * @param ptrProgressCallback a void function with a double parameter; the parameter will be a number in range 0 thru 1 indicating the progress
  */
-__declspec(dllexport) void SetProgressCallback(void __stdcall ptrProgressCallback(double));
+ void SetProgressCallback(void __stdcall ptrProgressCallback(double));
 
 /**
  * Activates the lazy loading mode.
  */
-__declspec(dllexport) void ActivateLazyLoading();
+void ActivateLazyLoading();
 
 /**
  * Gets whether the lazy loading mode is active.
  * @return true if the lazy loading mode is active, false the lazy loading mode is not active.
  */
-__declspec(dllexport) bool IsLazyLoadingActive();
+bool IsLazyLoadingActive();
+
+/**
+ * Parse the specified content in the specified language using the specified settings
+ * @param language the language code
+ * @param content the text to parse (UTF-8 encoding)
+ * @param settings the settings according to the settings specs
+ * @return a JSON structure according to the response specs
+ */
+__stdcall const char* Parse(const char * language, const char * content, const char * settings);
+
+/**
+ * **NOT ACTIVE YET**. Parse the specified content with session-scope modifications to the language model. 
+ * @param language the language code
+ * @param content the text to parse (UTF-8 encoding)
+ * @param settings the settings according to the settings specs
+ * @param privateLexicon an array of JSON lexeme entries
+ * @param privateFamilies an array of JSON family entries
+ * @param privatePragmatics an array of JSON pragmatic / commonsense cue entries
+ * @return a JSON structure according to the response specs
+ */
+__stdcall const char* ParseCustomSession(const char * language, const char * content,
+                                            const char * settings, const char * privateLexicon,
+                                            const char * privateFamilies,
+                                            const char * privatePragmatics);
 
 ```
 
