@@ -11,7 +11,7 @@ Deployment is accomplished by copying the components. No registration necessary.
 
 ## What's in the Package
 
-### Database
+### Language Models
 
 The language models or the runtime database use RocksDB, which stores multiple files per data store. The data store names in Tisane are in the following format:
 
@@ -27,12 +27,28 @@ In addition to the language-specific data stores, the following three data store
 * role
 * pragma
 
-All the datastores must reside in the same folder. 
+All the datastores must reside in the same folder. If you require to provide selected languages only, simply use the name prefixes (e.g. en, de, zh_CN) to figure out the language codes, and include the three shared datastores (_family_, _role_, _pragma_).
+
+### Binaries
+
+The Windows distribution contains
+
+* Runtime engine files: 
+  * libTisane.dll - the Tisane runtime, with the embedded RocksDB library
+  * libgcc_s_seh-1.dll - standard POSIX C/C++ library
+  * libstdc++-6.dll - standard POSIX C/C++ library
+  * libwinpthread-1.dll - standard POSIX C/C++ library
+* .NET wrapper files:
+  * Tisane.Runtime.dll - the Tisane wrapper assembly
+  * native/amd64/rocksdb.dll - a Windows port of RocksDB engine
+  * RocksDbSharp.dll, RocksDbNative.dll - the .NET wrapper for RocksDB
+  * System.\*.dll - standard .NET assemblies 
 
 ## Integration
 
 ### .NET
 
+Requirements: .NET 4.7
 
 <p align="center">
   <img src="https://github.com/tisanelabs/tisanedocs/blob/master/images/tisaneRuntimeNET.png" alt="Tisane architecture"/>
