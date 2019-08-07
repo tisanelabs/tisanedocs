@@ -1,13 +1,13 @@
 ## Getting Started
 
-Tisane Embedded Library allows seamless integration in desktop applications, eliminating the need to connect to a remote server. 
+Tisane Embedded Library allows seamless integration of the Tisane functionality in desktop applications, eliminating the need to connect to a remote server. 
 The two principal components of the package are the runtime library and the set of language models. The library runs on POSIX C/C++ and uses RocksDB to store its language models, making it natively cross-platform on OSes that support POSIX. 
 
 <p align="center">
   <img src="https://github.com/tisanelabs/tisanedocs/blob/master/images/tisaneRuntimeArchitecture.png" alt="Tisane architecture"/>
 </p>
 
-Deployment is accomplished by copying the components. No registration necessary. To start your tests, simply extract the files from the archive into a folder of your choice. (However, bear in mind that the sample PowerShell scripts point at _C:\Tisane_.)
+Deployment is accomplished by copying the components. The libraries are not COM-based, so no registration is necessary. To start your tests, simply extract the files from the archive into a folder of your choice. (However, bear in mind that the sample PowerShell scripts point at _C:\Tisane_.)
 
 ## What's in the Package
 
@@ -42,7 +42,10 @@ The Windows distribution contains
   * Tisane.Runtime.dll - the Tisane wrapper assembly
   * native/amd64/rocksdb.dll - a Windows port of RocksDB engine
   * RocksDbSharp.dll, RocksDbNative.dll - the .NET wrapper for RocksDB
-  * System.\*.dll - standard .NET assemblies 
+  * netstandard.dll - a standard .NET assembly
+  * System.\*.dll - standard .NET assemblies
+* Tisane.TestConsole.exe - diagnostic / test desktop UI tool relying on the .NET libraries
+* Tisane.TestConsole.exe.Config - a configuration file for the Tisane Test Console tool
 
 ## Integration
 
@@ -74,9 +77,17 @@ Tisane language models are created and edited using a web-based tool called LaMP
   <img src="https://github.com/tisanelabs/tisanedocs/blob/master/images/tisaneDBArchitecture.png" alt="Tisane architecture"/>
 </p>
 
-
 A Tisane compiler tool is used to generate the runtime database for the Tisane runtime libraries to use. 
 
-#### Modular Deployment
+#### Deploying by Language Packs
 
-Language models are stored in folders. 
+Language models are stored in folders. If you do not want to distribute all the language models, include in distribution only folders starting with the codes of the languages you intend to supply, and the three folders _family_, _role_, and _pragma_.
+
+#### Tisane.TestConsole.exe.Config Reference
+
+The Test Console configuration file is a standard .NET configuration file. The Tisane-specific settings are under the _<appSettings>_ tag. 
+
+* _DbPath_ holds the path of the root folder containing the language models
+* _language_ contains the ISO code of the default language
+* _content_ holds the content to load at the Test Console startup
+* the rest of settings directly reference the attributes in the Tisane settings
