@@ -3,7 +3,7 @@
 The purpose of the settings structure is to:
 
 * provide cues about the content to improve the results
-* select the sections of the output are to be shown
+* customize the output and select sections to be shown
 * define standards and formats in use
 * define and calculate the signal to noise ranking
 
@@ -23,17 +23,21 @@ The following sections will elaborate on each purpose. All settings are optional
 
 `domain_factors` (set of pairs made of strings and numbers) - provides a session-scope cues for the domains of discourse. This is a powerful tool that allows tailoring the result based on the use case. The format is, family ID of the domain as a key and the multiplication factor as a value (e.g. _"12345": 5.0_). For example, when processing text looking for criminal activity, we may want to set domains relevant to drugs, firearms, crime, higher: `"domain_factors": {"31058": 5.0, "45220": 5.0, "14112": 5.0, "14509": 3.0, "28309": 5.0, "43220": 5.0, "34581": 5.0}`. The same device can be used to eliminate noise coming from domains we know are irrelevant by setting the factor to a value lower than 1. 
 
-abuse (boolean, optional) - instructs to output the abuse section (default: true)
-sentiment (boolean, optional) - instructs to output the sentiment_expressions section (default: true)
-entities (boolean, optional) - instructs to output the entities_summary section (default: true)
-parses (boolean, optional) - instructs to output the parses section (phrases) (default: false)
-words (boolean, optional) - instructs to output the elements section (words) (default: false)
-snippets (boolean, optional) - instructs to output the text snippets in the abuse, sentiment, and entities sections (default: false)
-deterministic (boolean, optional) - instructs whether to omit the n-best senses (default: false)
-when (string, optional) - when the utterance was uttered (date + time)
-fetch_definitions (boolean, optional) - if true, instructs to include definitions in the output (warning: slows down the application and increases the size of the response).
-debug (boolean, optional) - if true, the process tracing is set to on.
-paragraphs (boolean, optional) - if true, outputs paragraph information
+`when` (date string, format YYYY-MM-DD) - indicates when the utterance was uttered. (TO BE IMPLEMENTED) The purpose is to prune word senses that were not available at a particular point in time. For example, the words `troll`, `mail`, and `post` had nothing to do with the Internet 300 years ago because there was no Internet, and so if we are confident that the text originated hundreds of years ago, we should ignore the word senses that emerged only recently.
+
+#### Output Customization
+
+`abuse` (boolean) - output instances of abusive content (default: `true`)
+`sentiment` (boolean) - output sentiment-bearing snippets (default: `true`)
+`entities` (boolean) - output entities (default: `true`)
+`topics` (boolean) - output topics (default: `true`)
+  `topic_stats` (boolean) - include coverage statistics in the topic output
+`words` (boolean) - output the lexical chunks / words for every sentence (default: `false`). In languages without white spaces (Chinese, Japanese, Thai), the tokens are tokenized words. In languages with compounds (e.g. German, Dutch, Norwegian), the compounds are split. 
+  `fetch_definitions` (boolean) - include definitions in the output
+`parses` (boolean) - output parse forests of phrases
+`deterministic` (boolean) - whether the n-best senses and n-best parses are to be output in addition to the detected sense. If `true`, only the detected sense will be output. Default: `true`
+`snippets` (boolean) - include the text snippets in the abuse, sentiment, and entities sections (default: `false`)
+
 
 #### Standards and Formats
 
