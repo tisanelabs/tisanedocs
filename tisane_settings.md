@@ -28,14 +28,24 @@ The following sections will elaborate on each purpose. All settings are optional
 #### Output Customization
 
 `abuse` (boolean) - output instances of abusive content (default: `true`)
+
 `sentiment` (boolean) - output sentiment-bearing snippets (default: `true`)
+
 `entities` (boolean) - output entities (default: `true`)
-`topics` (boolean) - output topics (default: `true`)
-  `topic_stats` (boolean) - include coverage statistics in the topic output
+
+`topics` (boolean) - output topics (default: `true`), with two more relevant settings:
+
+ * `topic_stats` (boolean) - include coverage statistics in the topic output (default: `false`). When set, the topic is an object containing the attributes `topic` (string) and `coverage` (floating-point number). The coverage indicates a share of sentences touching the topic among all the sentences. 
+ * `optimize_topics` (boolean) - if `true`, the less specific topics are removed if they are parts of the more specific topics. For example, when the topic is `cryptocurrency`, the optimization removes `finance`.  
+ 
 `words` (boolean) - output the lexical chunks / words for every sentence (default: `false`). In languages without white spaces (Chinese, Japanese, Thai), the tokens are tokenized words. In languages with compounds (e.g. German, Dutch, Norwegian), the compounds are split. 
-  `fetch_definitions` (boolean) - include definitions in the output
+
+  `fetch_definitions` (boolean) - include definitions of the words in the output (default: `false`). Only relevant when the `words` setting is `true`
+
 `parses` (boolean) - output parse forests of phrases
+
 `deterministic` (boolean) - whether the n-best senses and n-best parses are to be output in addition to the detected sense. If `true`, only the detected sense will be output. Default: `true`
+
 `snippets` (boolean) - include the text snippets in the abuse, sentiment, and entities sections (default: `false`)
 
 
