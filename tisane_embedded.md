@@ -43,7 +43,9 @@ The Windows distribution contains
   * native/amd64/rocksdb.dll - a Windows port of RocksDB engine
   * RocksDbSharp.dll, RocksDbNative.dll - the .NET wrapper for RocksDB
   * netstandard.dll - a standard .NET assembly
-  * System.\*.dll - standard .NET assemblies
+  * Microsoft.Win32.Primitives.dll - a standard .NET assembly
+  * Newtonsoft.Json.dll - a JSON parsing assembly
+  * System.\*.dll - other standard .NET assemblies
 * Tisane.TestConsole.exe - diagnostic / test desktop UI tool relying on the .NET libraries
 * Tisane.TestConsole.exe.Config - a configuration file for the Tisane Test Console tool. (See reference in the _Tisane.TestConsole.exe.Config Reference_ chapter.)
 
@@ -53,8 +55,8 @@ The Windows distribution contains
 
 As parsing language is a complex matter, the language models are complex structures. To optimize the user experience in different scenarios, Tisane provides two ways to work with the language models:
 
-1. *Lazy loading*. Minor portions of the language model are loaded at the initialization, while the lexicon is queried on the go. The initialization takes a couple of seconds, but the initial queries may be a bit slower. Overall, the lazy loading requires roughly 20 to 30 Mb RAM per language, with additional fixed amount of 30 to 40 Mb. 
-2. *Preloading*. The entire language model, except for the spellchecking dictionary, is preloaded into the RAM at the initialization time. On a modern midrange machine, equipped with an SSD, it takes between 20 to 40 seconds. The lexicon takes about 400 to 800 Mb per language. 
+1. **Lazy loading**. Minor portions of the language model are loaded at the initialization, while the lexicon is queried on the go. The initialization takes a couple of seconds, but the initial queries may be a bit slower. Overall, the lazy loading requires roughly 20 to 30 Mb RAM per language, with additional fixed amount of 30 to 40 Mb. 
+2. **Preloading**. The entire language model, except for the spellchecking dictionary, is preloaded into the RAM at the initialization time. On a modern midrange machine, equipped with an SSD, it takes between 20 to 40 seconds. The lexicon takes about 400 to 800 Mb per language. 
 
 The preloading mode is recommended for server-based applications and cases when there is a lot of data to analyze. For incidental usage, as well as low-spec hardware, we recommend lazy loading.
 
@@ -68,10 +70,18 @@ Requirements: .NET 4.7
   <img src="https://github.com/tisanelabs/tisanedocs/blob/master/images/tisaneRuntimeNET.png" alt="Tisane architecture"/>
 </p>
 
-For the needs of integration in .NET applications, Tisane Labs supplies a .NET assembly wrapping the core library and a configuration with settings passed to the calls. 
-The assembly name is *Tisane.Server*.
+For .NET applications, we supply a .NET assembly wrapping the core library and a configuration with settings passed to the calls. The settings must be ported to the configuration file associated with the caller application (e.g. _MyApplication.exe.config_). See _Tisane.TestConsole.exe.Config Reference_ for more info. 
+
+* Assembly name:  **Tisane.Runtime.dll**
+* Class name:     **Tisane.Server**
+* Method:         **Parse** (System.String _language_, System.String _content_, System.String _settings_)
+  * _language_ - the code of the language model
+  * _content_  - the text to parse
+  * _settings_ - the settings JSON object according to the [settings specs](tisane_settings.md)
 
 ### Native C/C++ Applications
+
+Requirements: Windows XP+ 64 bit
 
 <p align="center">
   <img src="https://github.com/tisanelabs/tisanedocs/blob/master/images/tisaneRuntimeWindowsArchitecture.png" alt="Tisane architecture"/>
@@ -98,9 +108,9 @@ Language models are stored in folders. If you do not want to distribute all the 
 
 The Test Console configuration file is a standard .NET configuration file. The Tisane-specific settings are under the _\<appSettings\>_ tag. 
 
-* _DbPath_ holds the path of the root folder containing the language models
-* _language_ contains the ISO code of the default language
-* _content_ holds the content to load at the Test Console startup
+* _DbPath_ holds the path of the root folder containing the language models.
+* _language_ contains the ISO code of the default language.
+* _content_ holds the content to load at the Test Console startup.
 * _lazy_loading_ determines whether the lazy loading mode is on. The language models are to be loaded fully when first accessed and the setting is _False_; if _True_, the lazy loading mode is on. The user cannot switch it off from the UI.
 * _trace_from_section_ contains the name of a section in the process where the tracer will start logging messages to the log file.
 * _log_name_ contains the name of the log file. If empty, the logging is turned off.
