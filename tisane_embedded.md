@@ -45,7 +45,7 @@ The Windows distribution contains
   * netstandard.dll - a standard .NET assembly
   * System.\*.dll - standard .NET assemblies
 * Tisane.TestConsole.exe - diagnostic / test desktop UI tool relying on the .NET libraries
-* Tisane.TestConsole.exe.Config - a configuration file for the Tisane Test Console tool
+* Tisane.TestConsole.exe.Config - a configuration file for the Tisane Test Console tool. (See reference in the _Tisane.TestConsole.exe.Config Reference_ chapter.)
 
 ## Integration
 
@@ -101,4 +101,7 @@ The Test Console configuration file is a standard .NET configuration file. The T
 * _DbPath_ holds the path of the root folder containing the language models
 * _language_ contains the ISO code of the default language
 * _content_ holds the content to load at the Test Console startup
+* _lazy_loading_ determines whether the lazy loading mode is on. The language models are to be loaded fully when first accessed and the setting is _False_; if _True_, the lazy loading mode is on. The user cannot switch it off from the UI.
+* _trace_from_section_ contains the name of a section in the process where the tracer will start logging messages to the log file.
+* _log_name_ contains the name of the log file. If empty, the logging is turned off.
 * the rest of settings directly reference the attributes in the [Tisane settings](tisane_settings.md)
