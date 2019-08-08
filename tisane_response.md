@@ -52,6 +52,28 @@ Every instance contains the following attributes:
 * `targets` (array of strings) - when available, provides set of aspects and/or entities which are the targets of the sentiment. For instance, when the utterance is, _The breakfast was yummy but the staff is unfriendly_, the targets for the two sentiment expressions are `meal` and `staff`. Named entities may also be targets of the sentiment.
 * `reasons` (array of strings) - when available, provides reasons for the sentiment. In the example utterance above (_The breakfast was yummy but the staff is unfriendly_), the `reasons` array for the `staff` is `["unfriendly"]`, while the `reasons` array for `meal` is `["tasty"]`.
 
+Example:
+
+```json
+"sentiment_expressions": [
+        {
+            "sentence_index": 0,
+             "offset": 0,
+             "length": 32,
+             "polarity": "positive",
+             "reasons": ["close"],
+             "targets": ["location"]
+         },
+         {
+            "sentence_index": 0,
+             "offset": 38,
+             "length": 29,
+             "polarity": "negative",
+             "reasons": ["disrespectful"],
+             "targets": ["staff"]
+         }
+     ]
+```
 
 ### Entities
 
@@ -90,9 +112,7 @@ Example:
          }
     ,
          {
-            "type": [
-                "organization",
-                 "place" ]
+            "type": [ "organization", "place" ]
         ,
              "name": "UK",
              "ref_lemma": "U.K.",
