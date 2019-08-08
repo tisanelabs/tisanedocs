@@ -31,6 +31,8 @@ All settings are optional. To leave all settings to default, simply provide an e
 
 `sentiment` (boolean) - output sentiment-bearing snippets (default: `true`)
 
+`document_sentiment` (boolean) - output document-level sentiment (default: `false`)
+
 `entities` (boolean) - output entities (default: `true`)
 
 `topics` (boolean) - output topics (default: `true`), with two more relevant settings:
