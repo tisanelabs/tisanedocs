@@ -254,6 +254,6 @@ Tisane supports automatic, context-aware spelling correction. Whether it's a mis
 
 When or if it's found, Tisane adds the `corrected_text` attribute to the word (if the words / lexical chunks are returned) and the sentence (if the sentence text is generated). 
 
-Note that **the invokation of spell-checking does not depend on whether the sentences and the words sections are generated in the output***. The spellchecking can be disabled by [setting](#content-cues-and-instructions) `disable_spellcheck` to `true`.
+Note that **the invocation of spell-checking does not depend on whether the sentences and the words sections are generated in the output***. The spellchecking can be disabled by [setting](#content-cues-and-instructions) `disable_spellcheck` to `true`.
 
 
