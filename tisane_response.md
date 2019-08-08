@@ -127,16 +127,72 @@ Example:
 ```
 
 
-
 ### Topics
 
+The `topics` section is an array of topics (subjects, domains, themes in other terms) detected in the text. 
 
+The section exists if topics are detected and the `topics` [setting](#output-customization) is either omitted or set to `true`.
 
+By default, a topic is a string. If `topic_stats` [setting](#output-customization) is set to `true`, then every entry in the array contains:
 
-
+* `topic` (string) - the topic itself
+* `coverage` (floating-point number) - a number between 0 and 1, indicating the ratio between the number of sentences where the topic is detected to the total number of sentences
 
 ### Advanced Low-Level Data: Sentences, Phrases, and Words
 
+Tisane allows obtaining more in-depth data, specifically:
+
+* sentences and their corrected form, if a misspelling was detected
+* lexical chunks and their grammatical and stylistic features
+* parse trees and phrases
+
+The `sentence_list` section is generated if the `words` or the `parses` [setting](#output-customization) is set to `true`. 
+
+Every sentence structure in the list contains:
+
+* `offset` (unsigned integer) - zero-based offset where the sentence starts
+* `length` (unsigned integer) - length of the sentence
+* `text` (string) - the sentence itself
+* `corrected_text` (string) - if a misspelling was detected and the spellchecking is active, contains the automatically corrected text
+* `words` (array of structures) - if `words` [setting](#output-customization) is set to `true`, generates extended information about every lexical chunk. (The term "word" is used for the sake of simplicity, however, it may not be linguistically correct to equate lexical chunks with words.)
+* `parse_tree` (object) - if `parses` [setting](#output-customization) is set to `true`, generates information about the parse tree and the phrases detected in the sentence.
+* `nbest_parses` (array of parse objects) if `parses` [setting](#output-customization) is set to `true` and `deterministic` [setting](#output-customization) is set to `false`, generates information about the parse trees that were deemed close enough to the best one but not the best. 
+
+#### Words
+
+Every lexical chunk ("word") structure in the `words` array contains:
+
+* `type` (string) - the type of the element: `punctuation` for punctuation marks, `numeral` for numerals, or `word` for everything else
+* `text` (string) - the text
+* `offset` (unsigned integer) - zero-based offset where the element starts
+* `length` (unsigned integer) - length of the element
+* `corrected_text` (string) - if a misspelling is detected, the corrected form
+* `lettercase` (string) - the original letter case: `upper`, `capitalized`, or `mixed`. If lowercase or no case, the attribute is omitted.
+* `stopword` (boolean) - determines whether the word is a [stopword](https://en.wikipedia.org/wiki/Stop_words)
+* `grammar` (array of strings or structures) - generates the list of grammar features associated with the `word`. If the `feature_standard` [setting] is defined as `native` or `description`, then every feature is an object containing a numeral and a string (code or description). Otherwise, every feature is a string
+
+##### Advanced
+
+For lexical chunks only:
+
+* `role` (string) - semantic role, like `agent` or `patient`. Note that in passive voice, the semantic roles are reverse to the syntactic roles. E.g. in a sentence like _The car was driven by David, _car_ is the patient, and _David_ is the agent.
+* `numeric_value` (floating-point number) - the numeric value, if the chunk has a value associated with it
+* `family` (integer number) - the ID of the family associated with the disambiguated word-sense of the lexical chunk
+* `definition` (string) - the definition of the family, if the `fetch_definitions` [setting](#output-customization) is set to `true`
+* `lexeme` (integer number) - the ID of the lexeme entry associated with the disambiguated word-sense of the lexical chunk
+* `nondictionary_pattern` (integer number) - the ID of a non-dictionary pattern that matched, if the word was not in the language model but was classified by the nondictionary heuristics
+* `style` (array of strings or structures) - generates the list of style features associated with the `word`. Only if the `feature_standard` [setting] is set to `native` or `description`
+* `semantics` (array of strings or structures) - generates the list of semantic features associated with the `word`. Only if the `feature_standard` [setting] is set to `native` or `description`
+* `segmentation` (structure) - generates info about the selected segmentation, if there are several possibilities to segment the current lexical chunk and the `deterministic` [setting] is set to `false`. A segmentation is simply an array of `word` structures. 
+* `other_segmentations` (array of structures) - generates info about the segmentations deemed incorrect during the disambiguation process. Every entry has the same structure as the `segmentation` structure.
+* `nbest_senses` (array of structures) - when the `deterministic` [setting] is set to `false`, generates a set of hypotheses that were deemed incorrect by the disambiguation process. Every hypothesis contains the following attributes: `grammar`, `style`, and `semantics`, identical in structure to their counterparts above; and `senses`, an array of word-senses associated with every hypothesis. Every sense has a `family`, which is an ID of the associated family; and, if the `fetch_definitions` [setting](#output-customization) is set to `true`, `definition` and `ref_lemma` of that family.
+
+For punctuation marks only: 
+
+* `id` (integer number) - the ID of the punctuation mark
+* `behavior` (string) - the behavior code of the punctuation mark. Values: `sentenceTerminator`, `genericComma`, `bracketStart`, `bracketEnd`, `scopeDelimiter`, `hyphen`, `quoteStart`, `quoteEnd`, `listComma` (for East-Asian enumeration commas like _、_)
+
+#### Parse Trees & Phrases
 
 
 
@@ -144,30 +200,14 @@ Example:
 
 Tisane supports automatic, context-aware spelling correction. Whether it's a misspelling or a purported obfuscation, Tisane attempts to deduce the intended meaning, if the language model does not recognize the word. 
 
-When or if it's found, Tisane adds the `corrected_text` attribute to the word (if the words / lexical chunks are returned) and the sentence (if the sentence text is displayed). 
+When or if it's found, Tisane adds the `corrected_text` attribute to the word (if the words / lexical chunks are returned) and the sentence (if the sentence text is generated). 
 
-Note that **the invokation of spell-checking does not depend on whether the sentences and the words are displayed***. The spellchecking can be disabled by [setting](#content-cues-and-instructions) `disable_spellcheck` to `true`.
+Note that **the invokation of spell-checking does not depend on whether the sentences and the words sections are generated in the output***. The spellchecking can be disabled by [setting](#content-cues-and-instructions) `disable_spellcheck` to `true`.
+
 
 
 The response sections and attributes are: 
 
-+ topics (array[string], optional) - a list of dominant topics in descending order (the most pertinent first)
-+ sentence_list (array[object]) - a list of sentences
-  + index (number) - the index of the sentence
-  + text (string) - the original text of the sentence
-  + corrected_text (string, optional) - the modified text, if it was modified
-  + elements (array[object]) - the words and the punctuation marks that make up the sentence
-    + text (string) - the word itself
-    + offset (number) - where the word is located from the beginning of the sentence
-    + type (enum) - a type of the constituent
-        + Values
-            + word - a word or a Constituent
-            + punctuation - a punctuation mark
-            + numeral - a numeral 
-    + role (string, optional) - a semantic role of the word (agent / patient)
-    + grammar (array[string], optional) - grammar features
-    + style (array[string], optional) - style features
-    + nbest_senses (array[WordSense]) - other word senses of the Constituent that were shortlisted
   + parses (array[object])
     + index (number) - the parse index
     + phrases (array[object]) - the phrases, arranged hierarchically
