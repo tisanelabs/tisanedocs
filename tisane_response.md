@@ -90,18 +90,6 @@ Example:
          }
     ,
          {
-            "type": "organization",
-             "name": "Rolls Royce",
-             "ref_lemma": "Rolls-Royce",
-             "mentions": [
-                {
-                    "sentence_index": 0,
-                     "offset": 25,
-                     "length": 11 }
-             ]
-         }
-    ,
-         {
             "type": [
                 "organization",
                  "place" ]
@@ -132,9 +120,13 @@ Example:
 
 
 
-### Context-Aware Spelling Correction
+#### Context-Aware Spelling Correction
 
+Tisane supports automatic, context-aware spelling correction. Whether it's a misspelling or a purported obfuscation, Tisane attempts to deduce the intended meaning, if the language model does not recognize the word. 
 
+When or if it's found, Tisane adds the `corrected_text` attribute to the word (if the words / lexical chunks are returned) and the sentence (if the sentence text is displayed). 
+
+Note that **the invokation of spell-checking does not depend on whether the sentences and the words are displayed***. The spellchecking can be disabled by [setting](#content-cues-and-instructions) `disable_spellcheck` to `true`.
 
 
 The response sections and attributes are: 
