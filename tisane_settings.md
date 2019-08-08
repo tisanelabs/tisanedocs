@@ -2,10 +2,10 @@
 
 The purpose of the settings JSON structure, passed as a parameter to the Tisane methods, is to:
 
-  * [Content Cues and Instructions](#content-cues-and-instructions) - provide cues about the content being sent to improve the results
-  * [Output Customization](#output-customization) - customize the output and select sections to be shown
-  * [Standards and Formats](#standards-and-formats) - define standards and formats in use
-  * [Signal to Noise Ranking](#signal-to-noise-ranking) - define and calculate the signal to noise ranking
+  * [provide cues about the content being sent to improve the results](#content-cues-and-instructions)
+  * [customize the output and select sections to be shown](#output-customization)
+  * [define standards and formats in use](#standards-and-formats)
+  * [define and calculate the signal to noise ranking](#signal-to-noise-ranking)
 
 All settings are optional. To leave all settings to default, simply provide an empty object (`{}`).
 
