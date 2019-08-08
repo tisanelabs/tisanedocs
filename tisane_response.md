@@ -1,22 +1,33 @@
 # Tisane Response Reference
 
-The response contains several sections which are displayed or hidden according to the [settings](tisane_settings.md). 
+The response contains several sections which are displayed or hidden according to the [settings](#output-customization). 
 
 ### Abusive Content
 
-The `abuse` section is an array of detected instances of content that may violate some terms of use. **NOTE**: the terms of use may vary, and so it is up to the moderators and the rules to determine whether the content is indeed abusive. The section exists if:
+The `abuse` section is an array of detected instances of content that may violate some terms of use. **NOTE**: the terms of use may vary, and so it is up to the moderators and the rules to determine whether the content is indeed abusive. For instance, it makes no sense to restrict sexual advances in a dating community, or censor profanities when it's accepted in the bulk of the community. The section exists if:
 
 * instances of abuse are detected
-* the `abuse` [setting](tisane_settings.md) is either omitted or set to `true`
+* the `abuse` [setting](#output-customization) is either omitted or set to `true`
 
 Every instance contains the following attributes:
 
 * `offset` (unsigned integer) - zero-based offset where the instance starts
 * `length` (unsigned integer) - length of the content
 * `sentence_index` (unsigned integer) - zero-based index of the sentence containing the instance
-* `text` (string) - fragment of text containing the instance (only included if the `snippets` setting is set to `true`)
-* `tags` (array of strings) - when exists, provides additional detail about the abuse. For instance, if the fragment is classified as an attempt to sell hard drugs, one of the tags may be _hard_drug_.
-* `type` (string) - the type of the abuse (see below)
+* `text` (string) - fragment of text containing the instance (only included if the `snippets` [setting](#output-customization) is set to `true`)
+* `tags` (array of strings) - when exists, provides additional detail about the abuse. For instance, if the fragment is classified as an attempt to sell hard drugs, one of the tags will be _hard_drug_.
+* `type` (string) - the type of the abuse
+
+The currently supported types are:
+
+* `personal_attack` - an insult / attack on the addressee, e.g. an instance of cyberbullying. Please note that an attack on a post or a point, or just negative sentiment is not the same as an insult. The line may be blurred at times. See [our Knowledge Base for more information](http://tisane.ai/knowledgebase/how-do-i-detect-personal-attacks/).
+* `bigotry` - hate speech aimed at one of the [protected classes](https://en.wikipedia.org/wiki/Protected_group) 
+* `profanity` - profane language, regardless of the intent
+* `sexual_advances` - welcome or unwelcome attempts to gain some sort of sexual favor or gratification
+* `criminal_activity` - attempts to sell or procure restricted items, criminal services, issuing death threats, and so on
+* `external_contact` - attempts to establish contact or payment outside of the online community, which may violate the rules in certain communities, e.g. gig economy portals, e-commerce portals
+* `spam` - (RESERVED) spam content
+* `generic` - undefined
 
 ### Sentiment Analysis
 
@@ -32,6 +43,12 @@ Every instance contains the following attributes:
 
 ### Entities
 
+Every mention contains the following attributes:
+
+* `offset` (unsigned integer) - zero-based offset where the instance starts
+* `length` (unsigned integer) - length of the content
+* `sentence_index` (unsigned integer) - zero-based index of the sentence containing the instance
+* `text` (string) - fragment of text containing the instance (only included if the `snippets` setting is set to `true`)
 
 
 ### Topics / Subjects / Domains
