@@ -32,13 +32,15 @@ The currently supported types are:
 * `profanity` - profane language, regardless of the intent
 * `sexual_advances` - welcome or unwelcome attempts to gain some sort of sexual favor or gratification
 * `criminal_activity` - attempts to sell or procure restricted items, criminal services, issuing death threats, and so on
-* `external_contact` - attempts to establish contact or payment outside of the online community (may violate the rules in certain communities, e.g. gig economy portals, e-commerce portals)
+* `external_contact` - attempts to establish contact or payment via external means of communication, e.g. phone, email, instant messaging (may violate the rules in certain communities, e.g. gig economy portals, e-commerce portals)
 * `spam` - (RESERVED) spam content
 * `generic` - undefined
 
 ### Sentiment Analysis
 
 The `sentiment_expressions` section is an array of detected fragments indicating the attitude towards aspects or entities. 
+
+The section exists if sentiment is detected and the `sentiment` [setting](#output-customization) is either omitted or set to `true`.
 
 Every instance contains the following attributes:
 
@@ -47,11 +49,22 @@ Every instance contains the following attributes:
 * `sentence_index` (unsigned integer) - zero-based index of the sentence containing the instance
 * `text` (string) - fragment of text containing the instance (only included if the `snippets` setting is set to `true`)
 * `polarity` (string) - whether the attitude is `positive`, `negative`, or `mixed`. Additionally, there is a `default` sentiment used for cases when the entire snippet has been pre-classified. For instance, if a review is split into two portions, _What did you like?_ and _What did you not like?_, and the reviewer replies briefly, e.g. _The quiet. The service_, the utterance itself has no sentiment value. When the calling application is aware of the intended sentiment, the _default_ sentiment simply provides the targets / aspects, which will be then added the sentiment externally. 
-* `targets` (array of strings) - when available, provides set of aspects and/or entities which are the targets of the sentiment. For instance, when the utterance is, _The breakfast was yummy but the staff is unfriendly_, the targets for the two sentiment expressions are `meal` and `staff`.
+* `targets` (array of strings) - when available, provides set of aspects and/or entities which are the targets of the sentiment. For instance, when the utterance is, _The breakfast was yummy but the staff is unfriendly_, the targets for the two sentiment expressions are `meal` and `staff`. Named entities may also be targets of the sentiment.
 * `reasons` (array of strings) - when available, provides reasons for the sentiment. In the example utterance above (_The breakfast was yummy but the staff is unfriendly_), the `reasons` array for the `staff` is `["unfriendly"]`, while the `reasons` array for `meal` is `["tasty"]`.
 
 
 ### Entities
+
+The `entities_summary` section is an array of named entity objects detected in the text. 
+
+The section exists if named entities are detected and the `entities` [setting](#output-customization) is either omitted or set to `true`.
+
+Every entity contains the following attributes:
+
+* `name` (string) - the most complete name of the entity in the text of all the mentions
+* `ref_lemma` (string) - when available, the dictionary form of the entity in the reference language (English) regardless of the input language
+* `type` (string) - a string or an array of strings specifying the type of the entity, such as `person`, `organization`, `numeric`, `amount_of_money`, `place`. Certain entities, like countries, may have several types (because a country is both a `place` and an `organization`).
+* `mentions` (array of objects) - a set of instances where the entity was mentioned in the text
 
 Every mention contains the following attributes:
 
@@ -61,8 +74,55 @@ Every mention contains the following attributes:
 * `text` (string) - fragment of text containing the instance (only included if the `snippets` setting is set to `true`)
 
 
+Example:
+```json
+ "entities_summary": [
+        {
+            "type": "person",
+             "name": "John Smith",
+             "ref_lemma": "John Smith",
+             "mentions": [
+                {
+                    "sentence_index": 0,
+                     "offset": 0,
+                     "length": 10 }
+             ]
+         }
+    ,
+         {
+            "type": "organization",
+             "name": "Rolls Royce",
+             "ref_lemma": "Rolls-Royce",
+             "mentions": [
+                {
+                    "sentence_index": 0,
+                     "offset": 25,
+                     "length": 11 }
+             ]
+         }
+    ,
+         {
+            "type": [
+                "organization",
+                 "place" ]
+        ,
+             "name": "UK",
+             "ref_lemma": "U.K.",
+             "mentions": [
+                {
+                    "sentence_index": 0,
+                     "offset": 40,
+                     "length": 2 }
+             ]
+         }
+     ]
+```
 
-### Topics / Subjects / Domains
+
+
+### Topics
+
+
 
 
 
@@ -79,37 +139,11 @@ Every mention contains the following attributes:
 
 The response sections and attributes are: 
 
-+ sentiment_expressions (array[object], optional) - a list of sentiment expressions
-  + polarity (enum) - negative or positive
-      + Values
-          + negative - negative sentiment
-          + positive - positive sentiment
-          + mixed - mixed sentiment
-  + reasons (array[string]) - the reasons that the sentiment phrase targets
-  + targets (array[string]) - the aspects/entities that the sentiment phrase and its sub-phrases refer to
-  + offset (number) - the offset of the phrase that contains the sentiment from the beginning of the sentence
-  + length (number) - the length of the phrase that contains the sentiment
-  + sentence_index (number) - the index of the sentence that contains the sentiment
 + topics (array[string], optional) - a list of dominant topics in descending order (the most pertinent first)
-+ entities_summary (array[object], optional) - a list of entities
-  + type (enum) - the type of the entity
-      + Values
-          + generic - unclassified type of entity
-          + person - a person
-          + place - a location
-          + organization - an organization or a business
-          + number - a number
-  + name (string) - the full name of the entity (the longest mention)
-  + index (number) - the index of the entity
-  + mentions (array[EntityMention]) - all the detected mentions of the entity
-    + offset (number) - an offset from the beginning of the sentence where the entity is mentioned
-    + length (number) - a length of the entity mention
-    + sentence_index (number) - the index of the sentence that contains the sentiment
-    + text (string) - the mention text, shown only if the setting `snippets` is set to true
 + sentence_list (array[object]) - a list of sentences
   + index (number) - the index of the sentence
   + text (string) - the original text of the sentence
-  + modified_text (string, optional) - the modified text, if it was modified
+  + corrected_text (string, optional) - the modified text, if it was modified
   + elements (array[object]) - the words and the punctuation marks that make up the sentence
     + text (string) - the word itself
     + offset (number) - where the word is located from the beginning of the sentence
