@@ -2,12 +2,18 @@
 
 The response contains several sections which are displayed or hidden according to the [settings](#output-customization). 
 
+The common attributes are:
+
+* `text` (string) - the original input
+* `reduced_output` (boolean) - if the input is too big, and verbose information like the lexical chunk was requested, the verbose information will not be generated, and this flag will be set to `true` and returned as part of the response
+* `sentiment` (floating-point number) - a number in range -1 to 1 indicating the document-level sentiment. Only shown when `document_sentiment` [setting](#output-customization) is set to `true`.
+* `signal2noise` (floating-point number) - a signal to noise ranking of the text, in relation to the array of concepts specified in the `relevant` [setting](#signal-to-noise-ranking). Only shown when the `relevant` setting exists.
+
 ### Abusive Content
 
-The `abuse` section is an array of detected instances of content that may violate some terms of use. **NOTE**: the terms of use may vary, and so it is up to the moderators and the rules to determine whether the content is indeed abusive. For instance, it makes no sense to restrict sexual advances in a dating community, or censor profanities when it's accepted in the bulk of the community. The section exists if:
+The `abuse` section is an array of detected instances of content that may violate some terms of use. **NOTE**: the terms of use in online communities may vary, and so it is up to the administrators to determine whether the content is indeed abusive. For instance, it makes no sense to restrict sexual advances in a dating community, or censor profanities when it's accepted in the bulk of the community. 
 
-* instances of abuse are detected
-* the `abuse` [setting](#output-customization) is either omitted or set to `true`
+The section exists if instances of abuse are detected and the `abuse` [setting](#output-customization) is either omitted or set to `true`.
 
 Every instance contains the following attributes:
 
@@ -17,20 +23,22 @@ Every instance contains the following attributes:
 * `text` (string) - fragment of text containing the instance (only included if the `snippets` [setting](#output-customization) is set to `true`)
 * `tags` (array of strings) - when exists, provides additional detail about the abuse. For instance, if the fragment is classified as an attempt to sell hard drugs, one of the tags will be _hard_drug_.
 * `type` (string) - the type of the abuse
+* `severity` (string) - how severe the abuse is. The levels of severity are `low`, `medium`, `high`, and `extreme`
 
 The currently supported types are:
 
 * `personal_attack` - an insult / attack on the addressee, e.g. an instance of cyberbullying. Please note that an attack on a post or a point, or just negative sentiment is not the same as an insult. The line may be blurred at times. See [our Knowledge Base for more information](http://tisane.ai/knowledgebase/how-do-i-detect-personal-attacks/).
-* `bigotry` - hate speech aimed at one of the [protected classes](https://en.wikipedia.org/wiki/Protected_group) 
+* `bigotry` - hate speech aimed at one of the [protected classes](https://en.wikipedia.org/wiki/Protected_group). The hate speech detected is not just racial slurs, but, generally, hostile statements aimed at the group as a whole
 * `profanity` - profane language, regardless of the intent
 * `sexual_advances` - welcome or unwelcome attempts to gain some sort of sexual favor or gratification
 * `criminal_activity` - attempts to sell or procure restricted items, criminal services, issuing death threats, and so on
-* `external_contact` - attempts to establish contact or payment outside of the online community, which may violate the rules in certain communities, e.g. gig economy portals, e-commerce portals
+* `external_contact` - attempts to establish contact or payment outside of the online community (may violate the rules in certain communities, e.g. gig economy portals, e-commerce portals)
 * `spam` - (RESERVED) spam content
 * `generic` - undefined
 
 ### Sentiment Analysis
 
+The `sentiment_expressions` section is an array of detected fragments relevant to sentiment. 
 
 Every instance contains the following attributes:
 
@@ -59,30 +67,12 @@ Every mention contains the following attributes:
 ### Context-Aware Spelling Correction
 
 
+### Advanced Low-Level Data: Sentences, Phrases, and Words
+
+
 
 The response sections and attributes are: 
 
-+ text (string) - the original text
-+ reducedOutput (boolean, optional) - if the input is too long, a special reduced outmode is activated, in which n-best interpretations and parses are no shown
-+ abuse (array[object], optional) - a list of abuse instance snippets
-  Each sentiment contains:
-  + type (enum) - a type of abuse
-      + Values
-          + bigotry - bigotry toward an ethnic or a religious group or a minority or a gender
-          + ad_hominem - attacking someone online
-          + criminal_activity - planning criminal activity
-          + sexual_advances - unsolicited sexual advances
-          + profanity - bad language
-          + generic - unclassified type of abuse
-  + severity_level (enum) - how severe the abuse is
-      + Values
-          + low - the lowest level of abuse
-          + medium - abuse of medium severity
-          + high - severe abuse
-          + extreme - extremely severe abuse
-  + offset (number) - where the abuse snippet is located from the beginning of the sentence
-  + length (number) - how long is the phrase
-  + sentence_index (number) - the index of the sentence
 + sentiment_expressions (array[object], optional) - a list of sentiment expressions
   + polarity (enum) - negative or positive
       + Values
