@@ -169,7 +169,7 @@ Every lexical chunk ("word") structure in the `words` array contains:
 * `corrected_text` (string) - if a misspelling is detected, the corrected form
 * `lettercase` (string) - the original letter case: `upper`, `capitalized`, or `mixed`. If lowercase or no case, the attribute is omitted.
 * `stopword` (boolean) - determines whether the word is a [stopword](https://en.wikipedia.org/wiki/Stop_words)
-* `grammar` (array of strings or structures) - generates the list of grammar features associated with the `word`. If the `feature_standard` [setting] is defined as `native` or `description`, then every feature is an object containing a numeral and a string (code or description). Otherwise, every feature is a string
+* `grammar` (array of strings or structures) - generates the list of grammar features associated with the `word`. If the `feature_standard` [setting] is defined as `native`, then every feature is an object containing a numeral (`index`) and a string (`value`). Otherwise, every feature is a plain string
 
 ##### Advanced
 
@@ -194,7 +194,49 @@ For punctuation marks only:
 
 #### Parse Trees & Phrases
 
+Every parse tree, or more accurately, parse forest, is a collection of phrases, hierarchically linked to each other. 
 
+At the top level of the parse, there is an array of root phrases under the `phrases` element and the numeric `id` associated with it. Every phrase may have children phrases. Every phrase has the following attributes:
+
+* `type` (string) - a [Penn treebank phrase tag](http://nliblog.com/wiki/knowledge-base-2/nlp-1-natural-language-processing/penn-treebank/penn-treebank-phrase-level-tags/) denoting the type of the phrase, e.g. _S_, _VP_, _NP_, etc.
+* `family` (integer number) - an ID of the phrase family
+* `offset` (unsigned integer) - a zero-based offset where the phrase starts
+* `length` (unsigned integer) - the span of the phrase
+* `role` (string) - the semantic role of the phrase, if any, analogous to that of the words
+* `text` (string) - the phrase text, where the phrase members are delimited by the vertical bar character. Children phrases are enclosed in brackets. E.g., _driven|by|David_ or _(The|car)|was|(driven|by|David)_.
+
+Example:
+
+```json
+"parse_tree": {
+"id": 4,
+"phrases": [
+{
+        "type": "S",
+        "family": 1451,
+        "offset": 0,
+        "length": 27,
+        "text": "(The|car)|was|(driven|by|David)",
+        "children": [
+                {
+                        "type": "NP",
+                        "family": 1081,
+                        "offset": 0,
+                        "length": 7,
+                        "text": "The|car",
+                        "role": "patient"
+                },
+                {
+                        "type": "VP",
+                        "family": 1172,
+                        "offset": 12,
+                        "length": 15,
+                        "text": "driven|by|David",
+                        "role": "verb"
+                }
+        ]
+}
+```
 
 #### Context-Aware Spelling Correction
 
@@ -204,16 +246,4 @@ When or if it's found, Tisane adds the `corrected_text` attribute to the word (i
 
 Note that **the invokation of spell-checking does not depend on whether the sentences and the words sections are generated in the output***. The spellchecking can be disabled by [setting](#content-cues-and-instructions) `disable_spellcheck` to `true`.
 
-
-
-The response sections and attributes are: 
-
-  + parses (array[object])
-    + index (number) - the parse index
-    + phrases (array[object]) - the phrases, arranged hierarchically
-      + index (string) - the index of the phrase
-      + text (string) - the phrase and its members, separated by a vertical bar. Sub-phrases are enclosed in brackets
-      + type (string) - a type of the phrase (e.g. NP; for those without standard codes, sense_id will be used)
-      + parent (number) - the index of the parent
-      + children (array[object], optional) - sub-phrases
 
