@@ -1,6 +1,6 @@
 ### Tisane Settings Reference
 
-The purpose of the settings structure is to:
+The purpose of the settings JSON structure, passed as a parameter to the Tisane methods, is to:
 
   * [Content Cues and Instructions](#content-cues-and-instructions) - provide cues about the content being sent to improve the results
   * [Output Customization](#output-customization) - customize the output and select sections to be shown
