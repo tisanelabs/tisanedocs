@@ -134,13 +134,13 @@ __stdcall void SetDbPath(const char *dataRootPath);
  * Loads a language model associated with the specified language code. ONLY AFTER SetDbPath
  * @param languageCode the code of the language to load
  */
-void LoadAnalysisLanguageModel(const char *languageCode);
+__stdcall void LoadAnalysisLanguageModel(const char *languageCode);
 
 /***
  * Unloads a language model associated with the specified language code.
  * @param languageCode the code of the language to unload
  */
-void UnloadAnalysisLanguageModel(const char *languageCode);
+__stdcall void UnloadAnalysisLanguageModel(const char *languageCode);
 
 /**
  * Links a callback function used when a language model is loaded.
