@@ -38,7 +38,7 @@ The currently supported types are:
 
 ### Sentiment Analysis
 
-The `sentiment_expressions` section is an array of detected fragments relevant to sentiment. 
+The `sentiment_expressions` section is an array of detected fragments indicating the attitude towards aspects or entities. 
 
 Every instance contains the following attributes:
 
@@ -46,7 +46,9 @@ Every instance contains the following attributes:
 * `length` (unsigned integer) - length of the content
 * `sentence_index` (unsigned integer) - zero-based index of the sentence containing the instance
 * `text` (string) - fragment of text containing the instance (only included if the `snippets` setting is set to `true`)
-* `tags` (array of strings) - when exists, provides additional detail about the abuse. For instance, if the abuse is about s
+* `polarity` (string) - whether the attitude is `positive`, `negative`, or `mixed`. Additionally, there is a `default` sentiment used for cases when the entire snippet has been pre-classified. For instance, if a review is split into two portions, _What did you like?_ and _What did you not like?_, and the reviewer replies briefly, e.g. _The quiet. The service_, the utterance itself has no sentiment value. When the calling application is aware of the intended sentiment, the _default_ sentiment simply provides the targets / aspects, which will be then added the sentiment externally. 
+* `targets` (array of strings) - when available, provides set of aspects and/or entities which are the targets of the sentiment. For instance, when the utterance is, _The breakfast was yummy but the staff is unfriendly_, the targets for the two sentiment expressions are `meal` and `staff`.
+* `reasons` (array of strings) - when available, provides reasons for the sentiment. In the example utterance above (_The breakfast was yummy but the staff is unfriendly_), the `reasons` array for the `staff` is `["unfriendly"]`, while the `reasons` array for `meal` is `["tasty"]`.
 
 
 ### Entities
@@ -59,15 +61,19 @@ Every mention contains the following attributes:
 * `text` (string) - fragment of text containing the instance (only included if the `snippets` setting is set to `true`)
 
 
+
 ### Topics / Subjects / Domains
+
+
+
+
+### Advanced Low-Level Data: Sentences, Phrases, and Words
 
 
 
 
 ### Context-Aware Spelling Correction
 
-
-### Advanced Low-Level Data: Sentences, Phrases, and Words
 
 
 
