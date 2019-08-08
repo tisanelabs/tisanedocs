@@ -7,7 +7,7 @@
 * [Advanced Low-Level Data: Sentences, Phrases, and Words](#advanced-low-level-data-sentences-phrases-and-words)
   + [Words](#words)
     - [Advanced](#advanced)
-  + [Parse Trees & Phrases](#parse-trees--phrases)
+  + [Parse Trees & Phrases](#parse-trees-and-phrases)
   + [Context-Aware Spelling Correction](#context-aware-spelling-correction)
 
 The response contains several sections which are displayed or hidden according to the [settings](#output-customization). 
@@ -202,7 +202,7 @@ For punctuation marks only:
 * `id` (integer number) - the ID of the punctuation mark
 * `behavior` (string) - the behavior code of the punctuation mark. Values: `sentenceTerminator`, `genericComma`, `bracketStart`, `bracketEnd`, `scopeDelimiter`, `hyphen`, `quoteStart`, `quoteEnd`, `listComma` (for East-Asian enumeration commas like _、_)
 
-#### Parse Trees & Phrases
+#### Parse Trees and Phrases
 
 Every parse tree, or more accurately, parse forest, is a collection of phrases, hierarchically linked to each other. 
 
