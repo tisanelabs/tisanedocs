@@ -185,7 +185,7 @@ Every lexical chunk ("word") structure in the `words` array contains:
 
 For lexical chunks only:
 
-* `role` (string) - semantic role, like `agent` or `patient`. Note that in passive voice, the semantic roles are reverse to the syntactic roles. E.g. in a sentence like _The car was driven by David, _car_ is the patient, and _David_ is the agent.
+* `role` (string) - semantic role, like `agent` or `patient`. Note that in passive voice, the semantic roles are reverse to the syntactic roles. E.g. in a sentence like _The car was driven by David_, _car_ is the patient, and _David_ is the agent.
 * `numeric_value` (floating-point number) - the numeric value, if the chunk has a value associated with it
 * `family` (integer number) - the ID of the family associated with the disambiguated word-sense of the lexical chunk
 * `definition` (string) - the definition of the family, if the `fetch_definitions` [setting](#output-customization) is set to `true`
@@ -254,6 +254,6 @@ Tisane supports automatic, context-aware spelling correction. Whether it's a mis
 
 When or if it's found, Tisane adds the `corrected_text` attribute to the word (if the words / lexical chunks are returned) and the sentence (if the sentence text is generated). 
 
-Note that **the invocation of spell-checking does not depend on whether the sentences and the words sections are generated in the output***. The spellchecking can be disabled by [setting](#content-cues-and-instructions) `disable_spellcheck` to `true`.
+Note that **the invocation of spell-checking does not depend on whether the sentences and the words sections are generated in the output**. The spellchecking can be disabled by [setting](#content-cues-and-instructions) `disable_spellcheck` to `true`.
 
 
