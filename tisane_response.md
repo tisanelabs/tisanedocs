@@ -89,7 +89,7 @@ Example:
 
 The `entities_summary` section is an array of named entity objects detected in the text. 
 
-The section exists if named entities are detected and the `entities` [setting](#output-customization) is either omitted or set to `true`.
+The section exists if named entities are detected and the `entities` [setting](tisane_settings.md#output-customization) is either omitted or set to `true`.
 
 Every entity contains the following attributes:
 
@@ -141,9 +141,9 @@ Example:
 
 The `topics` section is an array of topics (subjects, domains, themes in other terms) detected in the text. 
 
-The section exists if topics are detected and the `topics` [setting](#output-customization) is either omitted or set to `true`.
+The section exists if topics are detected and the `topics` [setting](tisane_settings.md#output-customization) is either omitted or set to `true`.
 
-By default, a topic is a string. If `topic_stats` [setting](#output-customization) is set to `true`, then every entry in the array contains:
+By default, a topic is a string. If `topic_stats` [setting](tisane_settings.md#output-customization) is set to `true`, then every entry in the array contains:
 
 * `topic` (string) - the topic itself
 * `coverage` (floating-point number) - a number between 0 and 1, indicating the ratio between the number of sentences where the topic is detected to the total number of sentences
@@ -156,7 +156,7 @@ Tisane allows obtaining more in-depth data, specifically:
 * lexical chunks and their grammatical and stylistic features
 * parse trees and phrases
 
-The `sentence_list` section is generated if the `words` or the `parses` [setting](#output-customization) is set to `true`. 
+The `sentence_list` section is generated if the `words` or the `parses` [setting](tisane_settings.md#output-customization) is set to `true`. 
 
 Every sentence structure in the list contains:
 
@@ -164,9 +164,9 @@ Every sentence structure in the list contains:
 * `length` (unsigned integer) - length of the sentence
 * `text` (string) - the sentence itself
 * `corrected_text` (string) - if a misspelling was detected and the spellchecking is active, contains the automatically corrected text
-* `words` (array of structures) - if `words` [setting](#output-customization) is set to `true`, generates extended information about every lexical chunk. (The term "word" is used for the sake of simplicity, however, it may not be linguistically correct to equate lexical chunks with words.)
-* `parse_tree` (object) - if `parses` [setting](#output-customization) is set to `true`, generates information about the parse tree and the phrases detected in the sentence.
-* `nbest_parses` (array of parse objects) if `parses` [setting](#output-customization) is set to `true` and `deterministic` [setting](#output-customization) is set to `false`, generates information about the parse trees that were deemed close enough to the best one but not the best. 
+* `words` (array of structures) - if `words` [setting](tisane_settings.md#output-customization) is set to `true`, generates extended information about every lexical chunk. (The term "word" is used for the sake of simplicity, however, it may not be linguistically correct to equate lexical chunks with words.)
+* `parse_tree` (object) - if `parses` [setting](tisane_settings.md#output-customization) is set to `true`, generates information about the parse tree and the phrases detected in the sentence.
+* `nbest_parses` (array of parse objects) if `parses` [setting](#output-customization) is set to `true` and `deterministic` [setting](tisane_settings.md#output-customization) is set to `false`, generates information about the parse trees that were deemed close enough to the best one but not the best. 
 
 #### Words
 
@@ -188,14 +188,14 @@ For lexical chunks only:
 * `role` (string) - semantic role, like `agent` or `patient`. Note that in passive voice, the semantic roles are reverse to the syntactic roles. E.g. in a sentence like _The car was driven by David_, _car_ is the patient, and _David_ is the agent.
 * `numeric_value` (floating-point number) - the numeric value, if the chunk has a value associated with it
 * `family` (integer number) - the ID of the family associated with the disambiguated word-sense of the lexical chunk
-* `definition` (string) - the definition of the family, if the `fetch_definitions` [setting](#output-customization) is set to `true`
+* `definition` (string) - the definition of the family, if the `fetch_definitions` [setting](tisane_settings.md#output-customization) is set to `true`
 * `lexeme` (integer number) - the ID of the lexeme entry associated with the disambiguated word-sense of the lexical chunk
 * `nondictionary_pattern` (integer number) - the ID of a non-dictionary pattern that matched, if the word was not in the language model but was classified by the nondictionary heuristics
 * `style` (array of strings or structures) - generates the list of style features associated with the `word`. Only if the `feature_standard` [setting] is set to `native` or `description`
 * `semantics` (array of strings or structures) - generates the list of semantic features associated with the `word`. Only if the `feature_standard` [setting] is set to `native` or `description`
 * `segmentation` (structure) - generates info about the selected segmentation, if there are several possibilities to segment the current lexical chunk and the `deterministic` [setting] is set to `false`. A segmentation is simply an array of `word` structures. 
 * `other_segmentations` (array of structures) - generates info about the segmentations deemed incorrect during the disambiguation process. Every entry has the same structure as the `segmentation` structure.
-* `nbest_senses` (array of structures) - when the `deterministic` [setting] is set to `false`, generates a set of hypotheses that were deemed incorrect by the disambiguation process. Every hypothesis contains the following attributes: `grammar`, `style`, and `semantics`, identical in structure to their counterparts above; and `senses`, an array of word-senses associated with every hypothesis. Every sense has a `family`, which is an ID of the associated family; and, if the `fetch_definitions` [setting](#output-customization) is set to `true`, `definition` and `ref_lemma` of that family.
+* `nbest_senses` (array of structures) - when the `deterministic` [setting] is set to `false`, generates a set of hypotheses that were deemed incorrect by the disambiguation process. Every hypothesis contains the following attributes: `grammar`, `style`, and `semantics`, identical in structure to their counterparts above; and `senses`, an array of word-senses associated with every hypothesis. Every sense has a `family`, which is an ID of the associated family; and, if the `fetch_definitions` [setting](tisane_settings.md#output-customization) is set to `true`, `definition` and `ref_lemma` of that family.
 
 For punctuation marks only: 
 
@@ -254,6 +254,6 @@ Tisane supports automatic, context-aware spelling correction. Whether it's a mis
 
 When or if it's found, Tisane adds the `corrected_text` attribute to the word (if the words / lexical chunks are returned) and the sentence (if the sentence text is generated). 
 
-Note that **the invocation of spell-checking does not depend on whether the sentences and the words sections are generated in the output**. The spellchecking can be disabled by [setting](#content-cues-and-instructions) `disable_spellcheck` to `true`.
+Note that **the invocation of spell-checking does not depend on whether the sentences and the words sections are generated in the output**. The spellchecking can be disabled by [setting](tisane_settings.md#content-cues-and-instructions) `disable_spellcheck` to `true`.
 
 
