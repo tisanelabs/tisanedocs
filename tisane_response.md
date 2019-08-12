@@ -16,21 +16,21 @@ The common attributes are:
 
 * `text` (string) - the original input
 * `reduced_output` (boolean) - if the input is too big, and verbose information like the lexical chunk was requested, the verbose information will not be generated, and this flag will be set to `true` and returned as part of the response
-* `sentiment` (floating-point number) - a number in range -1 to 1 indicating the document-level sentiment. Only shown when `document_sentiment` [setting](#output-customization) is set to `true`.
-* `signal2noise` (floating-point number) - a signal to noise ranking of the text, in relation to the array of concepts specified in the `relevant` [setting](#signal-to-noise-ranking). Only shown when the `relevant` setting exists.
+* `sentiment` (floating-point number) - a number in range -1 to 1 indicating the document-level sentiment. Only shown when `document_sentiment` [setting](tisane_settings.md#output-customization) is set to `true`.
+* `signal2noise` (floating-point number) - a signal to noise ranking of the text, in relation to the array of concepts specified in the `relevant` [setting](tisane_settings.md#signal-to-noise-ranking). Only shown when the `relevant` setting exists.
 
 ### Abusive Content
 
 The `abuse` section is an array of detected instances of content that may violate some terms of use. **NOTE**: the terms of use in online communities may vary, and so it is up to the administrators to determine whether the content is indeed abusive. For instance, it makes no sense to restrict sexual advances in a dating community, or censor profanities when it's accepted in the bulk of the community. 
 
-The section exists if instances of abuse are detected and the `abuse` [setting](#output-customization) is either omitted or set to `true`.
+The section exists if instances of abuse are detected and the `abuse` [setting](tisane_settings.md#output-customization) is either omitted or set to `true`.
 
 Every instance contains the following attributes:
 
 * `offset` (unsigned integer) - zero-based offset where the instance starts
 * `length` (unsigned integer) - length of the content
 * `sentence_index` (unsigned integer) - zero-based index of the sentence containing the instance
-* `text` (string) - fragment of text containing the instance (only included if the `snippets` [setting](#output-customization) is set to `true`)
+* `text` (string) - fragment of text containing the instance (only included if the `snippets` [setting](tisane_settings.md#output-customization) is set to `true`)
 * `tags` (array of strings) - when exists, provides additional detail about the abuse. For instance, if the fragment is classified as an attempt to sell hard drugs, one of the tags will be _hard_drug_.
 * `type` (string) - the type of the abuse
 * `severity` (string) - how severe the abuse is. The levels of severity are `low`, `medium`, `high`, and `extreme`
@@ -50,7 +50,7 @@ The currently supported types are:
 
 The `sentiment_expressions` section is an array of detected fragments indicating the attitude towards aspects or entities. 
 
-The section exists if sentiment is detected and the `sentiment` [setting](#output-customization) is either omitted or set to `true`.
+The section exists if sentiment is detected and the `sentiment` [setting](tisane_settings.md#output-customization) is either omitted or set to `true`.
 
 Every instance contains the following attributes:
 
