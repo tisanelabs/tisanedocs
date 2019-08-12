@@ -10,7 +10,7 @@
   + [Parse Trees & Phrases](#parse-trees-and-phrases)
   + [Context-Aware Spelling Correction](#context-aware-spelling-correction)
 
-The response contains several sections which are displayed or hidden according to the [settings](#output-customization). 
+The response contains several sections which are displayed or hidden according to the [settings](tisane_settings.md#output-customization). 
 
 The common attributes are:
 
