@@ -205,7 +205,12 @@ Tisane language models are created and edited using a web-based tool called LaMP
 A Tisane compiler tool is used to generate the runtime database for the Tisane runtime libraries to use. 
 
 In a typical installation, a nightly compile job uploads most recent builds to a dedicated FTP folder. 
-LaMP can be configured to generate complementary (custom)
+LaMP can be configured to generate complementary (custom) language models by specifying the _CustomSubdir_ parameter. 
+
+More reading:
+
+* [Adding terms in LaMP](https://tisane.ai/knowledgebase/adding-new-terms/)
+* [Adding patterns in LaMP)(https://tisane.ai/knowledgebase/adding-patterns/)
 
 #### Deploying by Language Packs
 
