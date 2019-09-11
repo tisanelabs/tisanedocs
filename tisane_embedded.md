@@ -137,6 +137,13 @@ __stdcall void SetDbPath(const char *dataRootPath);
 __stdcall void LoadAnalysisLanguageModel(const char *languageCode);
 
 /***
+ * Loads a customized language model associated with the specified language code. ONLY AFTER SetDbPath
+ * @param languageCode the code of the language to load
+ * @param customizationSuffix the suffix for the customization add-on model
+ */
+__stdcall void LoadCustomizedAnalysisLanguageModel(const char *languageCode, const char *customizationSuffix);
+
+/***
  * Unloads a language model associated with the specified language code.
  * @param languageCode the code of the language to unload
  */
@@ -197,6 +204,9 @@ Tisane language models are created and edited using a web-based tool called LaMP
 
 A Tisane compiler tool is used to generate the runtime database for the Tisane runtime libraries to use. 
 
+In a typical installation, a nightly compile job uploads most recent builds to a dedicated FTP folder. 
+LaMP can be configured to generate complementary (custom)
+
 #### Deploying by Language Packs
 
 Language models are stored in folders. If you do not want to distribute all the language models, include in distribution only folders starting with the codes of the languages you intend to supply, and the three folders _family_, _role_, and _pragma_.
@@ -205,10 +215,11 @@ Language models are stored in folders. If you do not want to distribute all the 
 
 The Test Console configuration file is a standard .NET configuration file. The Tisane-specific settings are under the _\<appSettings\>_ tag. 
 
-* _DbPath_ holds the path of the root folder containing the language models.
-* _language_ contains the ISO code of the default language.
-* _content_ holds the content to load at the Test Console startup.
-* _PreloadLanguages_ contains a list of codes of the language models to preload
+* _DbPath_ the path of the root folder containing the language models.
+* _CustomSubdir_ the subdirectory for the customized datastores, when customized language model overrides are used. 
+* _language_ the ISO code of the default language.
+* _content_ the content to load at the Test Console startup.
+* _PreloadLanguages_ a list of codes of the language models to preload
 * _lazy_loading_ determines whether the lazy loading mode is on. The language models are to be loaded fully when first accessed and the setting is _False_; if _True_, the lazy loading mode is on. The user cannot switch it off from the UI.
 * _trace_from_section_ contains the name of a section in the process where the tracer will start logging messages to the log file.
 * _log_name_ contains the name of the log file. If empty, the logging is turned off.
