@@ -210,7 +210,7 @@ LaMP can be configured to generate complementary (custom) language models by spe
 More reading:
 
 * [Adding terms in LaMP](https://tisane.ai/knowledgebase/adding-new-terms/)
-* [Adding patterns in LaMP)(https://tisane.ai/knowledgebase/adding-patterns/)
+* [Adding patterns in LaMP](https://tisane.ai/knowledgebase/adding-patterns/)
 
 #### Deploying by Language Packs
 
