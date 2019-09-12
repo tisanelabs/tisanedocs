@@ -207,10 +207,10 @@ A Tisane compiler tool is used to generate the runtime database for the Tisane r
 In a typical installation, a nightly compile job uploads most recent builds to a dedicated FTP folder. 
 LaMP can be configured to generate complementary (custom) language models by specifying the _CustomSubdir_ parameter. 
 
-More reading:
+How to:
 
-* [Adding terms in LaMP](https://tisane.ai/knowledgebase/adding-new-terms/)
-* [Adding patterns in LaMP](https://tisane.ai/knowledgebase/adding-patterns/)
+* [add terms in LaMP](https://tisane.ai/knowledgebase/adding-new-terms/)
+* [add patterns and commonsense cues in LaMP](https://tisane.ai/knowledgebase/adding-commonsense/)
 
 #### Deploying by Language Packs
 
