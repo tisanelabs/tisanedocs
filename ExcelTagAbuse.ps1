@@ -1,4 +1,4 @@
-﻿$SPREADSHEET_PATHNAME = 'c:\PATH_WHERE_I_STORE_MY_SPREADSHEETS\TisaneTest.xlsx'
+$SPREADSHEET_PATHNAME = 'c:\PATH_WHERE_I_STORE_MY_SPREADSHEETS\TisaneTest.xlsx'
 $TISANE_PATH = 'C:\Tisane\TestConsole\'
 $ROW_COUNT_IN_SPREADSHEET = 1000
 $languageCode = 'en' # assuming the spreadsheets are monolingual
@@ -81,9 +81,10 @@ For ($i=$startLine; $i -le $endLine; $i++) {
             $parsedTisane.topics | Foreach-Object {
                switch ($_) {
                 'narcotic' { $crimeDomain = "drugs 💉" }
-                'hard drug' { $crimeDomain = "drugs 💉" }
+                'drug' { $crimeDomain = "drugs 💉" }
                 'soft drug' { $crimeDomain = "drugs 🌿" }
                 'hard drug' { $crimeDomain = "drugs 💉" }
+                'medication' { $crimeDomain = "drugs 💊" }
                 'threat' {$crimeDomain = "threat 👿"}
                 'planning' {$crimeDomain = "planning ✍"}
                 'sourcing' {$crimeDomain = "procurement 📰"}
