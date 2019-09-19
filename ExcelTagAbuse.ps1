@@ -1,3 +1,6 @@
+
+# modify the 4 parameters below as you need. Assuming your samples are in the first column
+
 $SPREADSHEET_PATHNAME = 'c:\PATH_WHERE_I_STORE_MY_SPREADSHEETS\TisaneTest.xlsx'
 $TISANE_PATH = 'C:\Tisane\TestConsole\'
 $ROW_COUNT_IN_SPREADSHEET = 1000
