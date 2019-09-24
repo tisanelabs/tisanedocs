@@ -137,31 +137,31 @@ For ($i=$startLine; $i -le $endLine; $i++) {
     $parsedTisane.entities_summary | Foreach-Object {
       if ($_.type -eq 'software' -or $_.type[0] -eq 'software' -and $_.type[1] -ne 'website' -and $_.type[2] -ne 'website' -or $_.type[1] -eq 'software' -and $_.type[0] -ne 'website' -and $_.type[2] -ne 'website') {
         if ($software) {
-          $software = $software + ' / ' + $_.ref_lemma
+          $software = $software + ' / ' + $_.name
         } else {
-          $software = $_.ref_lemma
+          $software = $_.name
         }
       }
       else {
         if ($_.type -eq 'organization' -or $_.type[0] -eq 'organization' -or $_.type[1] -eq 'organization') {
           if ($orgs) {
-            $orgs = $orgs + ' / ' + $_.ref_lemma
+            $orgs = $orgs + ' / ' + $_.name
           } else {
-            $orgs = $_.ref_lemma
+            $orgs = $_.name
           }
         } else {
           if ($_.type -eq 'person' -or $_.type -eq 'username') {
             if ($people) {
-              $people = $people + ' / ' + $_.ref_lemma
+              $people = $people + ' / ' + $_.name
             } else {
-              $people = $_.ref_lemma            
+              $people = $_.name            
             }
           } else {
             if ($_.type -eq 'email' -or $_.type -eq 'phone' -or $_.type -eq 'username') {
               if ($contactDetails) {
-                $contactDetails = $contactDetails + ' / ' + $_.ref_lemma
+                $contactDetails = $contactDetails + ' / ' + $_.name
               } else {
-                $contactDetails = $_.ref_lemma            
+                $contactDetails = $_.name            
               }
             }
           }
