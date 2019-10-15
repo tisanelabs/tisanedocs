@@ -17,7 +17,7 @@
 
 ## Getting Started
 
-Tisane Embedded Library allows seamless integration of the Tisane functionality in desktop applications, eliminating the need to connect to a remote server. 
+Tisane Embedded Library allows seamless integration of the Tisane functionality in desktop and server applications, eliminating the need to connect to a remote server. 
 The two principal components of the package are the runtime library and the set of language models. The library runs on POSIX C/C++ and uses RocksDB to store its language models, making it natively cross-platform on OSes that support POSIX. 
 
 <p align="center">
