@@ -39,7 +39,7 @@ For ($i=$startLine; $i -le $endLine; $i++) {
   
   $pct = (($i - $startLine) / ($endLine - $startLine)) * 100
   Write-Progress -Activity "[$i] $content" -Status "$pct% complete" -PercentComplete $pct
-  $tisaneResult = $tisane.Parse($languageCode, $content, '{"domain_factors":{"31058":5.0,"45220":4.0,"14509":5.0,"28309":3.0,"43220":4.9,"34581":5.0},"snippets":true,"topic_standard":"native","sentiment":false,"parses":false,"words":false,"entities":true}')
+  $tisaneResult = $tisane.Parse($languageCode, $content, '{"snippets":true,"topic_standard":"native","sentiment":false,"parses":false,"words":true,"entities":true}')
   $tisaneResult
   $parsedTisane = ConvertFrom-Json -InputObject $tisaneResult
   $crimeDomain = ''
