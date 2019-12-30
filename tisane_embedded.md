@@ -97,6 +97,14 @@ For .NET applications, we supply a .NET assembly wrapping the core library and a
   * _settings_ - the settings JSON object according to the [settings specs](tisane_settings.md)
   * returns a JSON structure according to the [response specs](tisane_response.md)
 
+* Method:         **Transform** (System.String _sourceLanguage_, System.String _targetLanguage_, System.String _content_, System.String _settings_)
+  * _sourceLanguage_ - the code of the language model for the input content
+  * _targetLanguage_ - the code of the target language model
+  * _content_  - the text to transform
+  * _settings_ - the settings JSON object according to the [settings specs](tisane_settings.md)
+  * returns a translated or paraphrased text
+
+
 The [TisaneTest PowerShell script](TisaneTest.ps1) allows launching the .NET assembly and testing the settings without the need to recompile or modify your application. 
 
 ### Native C/C++ Applications
@@ -135,6 +143,12 @@ __stdcall void SetDbPath(const char *dataRootPath);
  * @param languageCode the code of the language to load
  */
 __stdcall void LoadAnalysisLanguageModel(const char *languageCode);
+
+/***
+ * Loads a language model associated with the specified language code for transformation (translation and paraphrase) applications. ONLY AFTER SetDbPath
+ * @param languageCode the code of the target language to load
+ */
+__stdcall void LoadGenerationLanguageModel(const char *languageCode);
 
 /***
  * Loads a customized language model associated with the specified language code. ONLY AFTER SetDbPath
@@ -189,6 +203,18 @@ __stdcall const char* ParseCustomSession(const char * language, const char * con
                                             const char * settings, const char * privateLexicon,
                                             const char * privateFamilies,
                                             const char * privatePragmatics);
+                                            
+/**
+ * Translate or paraphrase a string from one language to another
+ * @param sourceLanguage the source language code
+ * @param targetLanguage the target language code
+ * @param content the text to transform (UTF-8 encoding)
+ * @param settings the settings according to the [settings specs](tisane_settings.md)
+ * @return a translated or paraphrased string
+ */
+__stdcall EXPORT_FUNCTION const char* Transform(const char * sourceLanguage, const char * targetLanguage,
+        const char * content, const char * settings);
+
 
 ```
 
