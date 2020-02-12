@@ -253,5 +253,6 @@ The Test Console configuration file is a standard .NET configuration file. The T
 * _PreloadLanguages_ a list of codes of the language models to preload
 * _lazy_loading_ determines whether the lazy loading mode is on. The language models are to be loaded fully when first accessed and the setting is _False_; if _True_, the lazy loading mode is on. The user cannot switch it off from the UI.
 * _trace_from_section_ contains the name of a section in the process where the tracer will start logging messages to the log file.
-* _log_name_ contains the name of the log file. If empty, the logging is turned off.
+* _log_name_ contains the name of the log file for the Tisane core library only. If empty, the logging is turned off. Please note that this is to debug the parsing process only. 
+* _Log_ is a pathname of a trace file used to dump higher-level debugging info, e.g. the libraries, the folders, the physical integrity of the files, etc.
 * the rest of settings directly reference the attributes in the [Tisane settings](tisane_settings.md).
