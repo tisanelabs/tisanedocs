@@ -15,7 +15,7 @@ Add-Type -AssemblyName System.Configuration
 $startedAt = Get-Date
 $tisane = New-Object Tisane.Server 
 $languageCode = 'en'
-$textToParse = 'People like you should be executed'
+$textToParse = 'You are not nice'
 $tisaneResult = $tisane.Parse($languageCode, $textToParse, '{"snippets":true,"topic_standard":"native","sentiment":false,"parses":false,"words":false,"entities":true}')
 $tisaneResult
 $finishedAt = Get-Date
