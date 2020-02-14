@@ -50,6 +50,12 @@ For ($i=$startLine; $i -le $endLine; $i++) {
   $contactDetails = ''
   $sexualAdvances = ''
   $people = ''
+  $locations = ''
+  $time_ranges = ''
+  $dates = ''
+  $times = ''
+  $files = ''
+  $phones = ''
   $orgs = ''
   $software = ''
   if ($parsedTisane.abuse) {
@@ -143,25 +149,74 @@ For ($i=$startLine; $i -le $endLine; $i++) {
         }
       }
       else {
-        if ($_.type -eq 'organization' -or $_.type[0] -eq 'organization' -or $_.type[1] -eq 'organization') {
-          if ($orgs) {
-            $orgs = $orgs + ' / ' + $_.name
+        if ($_.type -eq 'place' -or $_.type[0] -eq 'place' -or $_.type[1] -eq 'place') {
+          if ($locations) {
+            $locations = $locations + ' / ' + $_.name
           } else {
-            $orgs = $_.name
+            $locations = $_.name
           }
-        } else {
-          if ($_.type -eq 'person' -or $_.type -eq 'username') {
-            if ($people) {
-              $people = $people + ' / ' + $_.name
+        }
+        else {
+          if ($_.type -eq 'organization' -or $_.type[0] -eq 'organization' -or $_.type[1] -eq 'organization') {
+            if ($orgs) {
+              $orgs = $orgs + ' / ' + $_.name
             } else {
-              $people = $_.name            
+              $orgs = $_.name
             }
           } else {
-            if ($_.type -eq 'email' -or $_.type -eq 'phone' -or $_.type -eq 'username') {
-              if ($contactDetails) {
-                $contactDetails = $contactDetails + ' / ' + $_.name
+            if ($_.type -eq 'person' -or $_.type -eq 'username') {
+              if ($people) {
+                $people = $people + ' / ' + $_.name
               } else {
-                $contactDetails = $_.name            
+                $people = $_.name            
+              }
+            } else {
+              if ($_.type -eq 'email' -or $_.type -eq 'phone' -or $_.type -eq 'username') {
+                if ($contactDetails) {
+                  $contactDetails = $contactDetails + ' / ' + $_.name
+                } else {
+                  $contactDetails = $_.name            
+                }
+              } else {
+                switch ($_.type) 
+                { 
+                  'time_range' { 
+                    if ($time_ranges) {
+                      $time_ranges = $time_ranges + ' / ' + $_.name
+                    } else {
+                      $time_ranges = $_.name
+                    }
+                  }
+                  'date' { 
+                    if ($dates) {
+                      $dates = $dates + ' / ' + $_.name
+                    } else {
+                      $dates = $_.name
+                    }
+                  }
+                  'time' { 
+                    if ($times) {
+                      $times = $times + ' / ' + $_.name
+                    } else {
+                      $times = $_.name
+                    }
+                  }
+                  'file' {
+                    if ($files) {
+                      $files = $files + ' / ' + $_.name
+                    } else {
+                      $files = $_.name
+                    }
+                  }
+                  'phone' {
+                    if ($phones) {
+                      $phones = $phones + ' / ' + $_.name
+                    } else {
+                      $phones = $_.name
+                    }
+                  }
+
+                }
               }
             }
           }
@@ -178,6 +233,12 @@ For ($i=$startLine; $i -le $endLine; $i++) {
   $srcSheet.Cells.Item($i,8).Value = $people
   $srcSheet.Cells.Item($i,9).Value = $orgs
   $srcSheet.Cells.Item($i,10).Value = $software
+  $srcSheet.Cells.Item($i,11).Value = $locations
+  $srcSheet.Cells.Item($i,12).Value = $time_ranges
+  $srcSheet.Cells.Item($i,13).Value = $dates
+  $srcSheet.Cells.Item($i,14).Value = $times
+  $srcSheet.Cells.Item($i,15).Value = $files
+  $srcSheet.Cells.Item($i,16).Value = $phones
 }
 
 Write-Progress -Activity "Almost done" -Status "Saving the spreadsheet"
