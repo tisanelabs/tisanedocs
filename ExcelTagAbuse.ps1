@@ -178,41 +178,42 @@ For ($i=$startLine; $i -le $endLine; $i++) {
                   $contactDetails = $_.name            
                 }
               } else {
+                $name = $_.name
                 switch ($_.type) 
                 { 
                   'time_range' { 
                     if ($time_ranges) {
-                      $time_ranges = $time_ranges + ' / ' + $_.name
+                      $time_ranges = $time_ranges + ' / ' + $name
                     } else {
-                      $time_ranges = $_.name
+                      $time_ranges = $name
                     }
                   }
                   'date' { 
                     if ($dates) {
-                      $dates = $dates + ' / ' + $_.name
+                      $dates = $dates + ' / ' + $name
                     } else {
-                      $dates = $_.name
+                      $dates = $name
                     }
                   }
                   'time' { 
                     if ($times) {
-                      $times = $times + ' / ' + $_.name
+                      $times = $times + ' / ' + $name
                     } else {
-                      $times = $_.name
+                      $times = $name
                     }
                   }
                   'file' {
                     if ($files) {
-                      $files = $files + ' / ' + $_.name
+                      $files = $files + ' / ' + $name
                     } else {
-                      $files = $_.name
+                      $files = $name
                     }
                   }
                   'phone' {
                     if ($phones) {
-                      $phones = $phones + ' / ' + $_.name
+                      $phones = $phones + ' / ' + $name
                     } else {
-                      $phones = $_.name
+                      $phones = $name
                     }
                   }
 
