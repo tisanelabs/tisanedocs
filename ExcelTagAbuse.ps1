@@ -171,7 +171,7 @@ For ($i=$startLine; $i -le $endLine; $i++) {
                 $people = $_.name            
               }
             } else {
-              if ($_.type -eq 'email' -or $_.type -eq 'phone' -or $_.type -eq 'username') {
+              if ($_.type -eq 'email' -or $_.type -eq 'username') {
                 if ($contactDetails) {
                   $contactDetails = $contactDetails + ' / ' + $_.name
                 } else {
