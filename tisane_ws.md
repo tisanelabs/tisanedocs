@@ -25,12 +25,22 @@ The two principal components of the package are the executables and the set of l
   <img src="https://github.com/tisanelabs/tisanedocs/blob/master/images/tisaneRuntimeNET.png" alt="Tisane architecture"/>
 </p>
 
+### Requirements
+
+Tisane requires:
+
+* Windows Server 2012 or newer
+* .NET 4.7+
+* 4 Gb RAM or better
+
+Faster drives (e.g. SSD) are recommended. 
+
 ### Deployment
 
 Deployment is accomplished by copying the components, and registering the service, which can be then accessed and controlled from Windows Services Manager:
 
 1. Create a folder (e.g. _C:\Tisane\_)
-2. Extract the archive to the folder
+2. Extract the archive to the folder of your choice. (However, bear in mind that the sample PowerShell scripts point at _C:\Tisane_.)
 3. Set the _DbPath_ parameter in _Tisane.Runtime.Service.exe.config_ to your root Tisane path (mind the backslash). 
 4. **As an Administrator**, execute the following in Powershell or Command Prompt (substitute _C:\Tisane_ to your Tisane root path): 
 
@@ -38,12 +48,25 @@ Deployment is accomplished by copying the components, and registering the servic
 cd C:\Tisane
 .\Tisane.Runtime.Service.exe -i
 ```
-
-To start your tests, simply extract the files from the archive into a folder of your choice. (However, bear in mind that the sample PowerShell scripts point at _C:\Tisane_.)
+If everything worked, you will see your Tisane service in the Windows Services Manager. The service description contains the name of the folder where it's been deployed. 
 
 <p align="center">
   <img src="https://github.com/tisanelabs/tisanedocs/blob/master/images/tisaneWindowsService.png" alt="Tisane services"/>
 </p>
+
+#### Running Several Instances
+
+Several instances of Tisane may run in parallel. They can access the same linguistic database, but they need to be in different folders and run on different ports. To deploy an additional instance:
+
+1. Create a new folder.
+2. Copy all the files from the root Tisane folder + `native` subfolder to the new folder.
+3. Set the _DbPath_ parameter in _Tisane.Runtime.Service.exe.config_ in your new folder. Set the _baseAddress_ parameter to point to a new port.    
+4. **As an Administrator**, execute the following in Powershell or Command Prompt (substitute _C:\MyNewTisaneFolder_ to your new folder's name): 
+```
+cd C:\MyNewTisaneFolder
+.\Tisane.Runtime.Service.exe -i
+```
+If everything worked, you will see your Tisane service in the Windows Services Manager. 
 
 ## What's in the Package
 
@@ -82,150 +105,10 @@ The Windows distribution contains
   * Microsoft.Win32.Primitives.dll - a standard .NET assembly
   * Newtonsoft.Json.dll - a JSON parsing assembly
   * System.\*.dll - other standard .NET assemblies
-  * Tisane.Runtime.Service.exe - the Windows service
-* Tisane.TestConsole.exe - diagnostic / test desktop UI tool relying on the .NET libraries
+* Tisane.Runtime.Service.exe - the Windows service
+* Tisane.TestConsole.exe - diagnostic / test desktop UI tool
 * Tisane.TestConsole.exe.Config - a configuration file for the Tisane Test Console tool. (See reference in the _Tisane.TestConsole.exe.Config Reference_ chapter.)
 * Tisane.Runtime.Service.exe.config - a sample configuration file for Tisane Web Service. (See reference in the _Tisane.Runtime.Service.exe.config Reference_ chapter.)
-
-## Integration
-### .NET
-
-Requirements: .NET 4.7
-
-<p align="center">
-  <img src="https://github.com/tisanelabs/tisanedocs/blob/master/images/tisaneRuntimeNET.png" alt="Tisane architecture"/>
-</p>
-
-For .NET applications, we supply a .NET assembly wrapping the core library and a configuration with settings passed to the calls. The settings must be ported to the configuration file associated with the caller application (e.g. _MyApplication.exe.config_). See _Tisane.TestConsole.exe.Config Reference_ for more info. 
-
-* Assembly name:  **Tisane.Runtime.dll**
-* Class name:     **Tisane.Server**. Note that while the class is thread-safe, there are no attributes and the class is stateless, but the underlying C/C++ object changes its state. 
-* Method:         **Parse** (System.String _language_, System.String _content_, System.String _settings_)
-  * _language_ - the code of the language model
-  * _content_  - the text to parse
-  * _settings_ - the settings JSON object according to the [settings specs](tisane_settings.md)
-  * returns a JSON structure according to the [response specs](tisane_response.md)
-
-* Method:         **Transform** (System.String _sourceLanguage_, System.String _targetLanguage_, System.String _content_, System.String _settings_)
-  * _sourceLanguage_ - the code of the language model for the input content
-  * _targetLanguage_ - the code of the target language model
-  * _content_  - the text to transform
-  * _settings_ - the settings JSON object according to the [settings specs](tisane_settings.md)
-  * returns a translated or paraphrased text
-
-
-The [TisaneTest PowerShell script](TisaneTest.ps1) allows launching the .NET assembly and testing the settings without the need to recompile or modify your application. 
-
-### Native C/C++ Applications
-
-Requirements: Windows XP+ 64 bit
-
-<p align="center">
-  <img src="https://github.com/tisanelabs/tisanedocs/blob/master/images/tisaneRuntimeWindowsArchitecture.png" alt="Tisane architecture"/>
-</p>
-
-Integration with the native C/C++ applications is available via low-level access to the Tisane library. The prototypes are in C, for the sake of compatibility. 
-
-Use `SetDbPath` to set the data path and `LoadAnalysisLanguageModel` to load your language model, then call `Parse` to process the text. Also see the [response specs](tisane_response.md) and the [settings specs](tisane_settings.md).
-
-Example code:
-
-```c
-  SetDbPath("C:\\Tisane");
-  ActivateLazyLoading(); // it's a test, we don't want to spend a minute waiting for a tiny piece of text to be processed
-  LoadAnalysisLanguageModel("en");
-  cout << "\n" << Parse("en", "This is a test.", "{\"parses\":true, \"words\":true}");
-```
-
-
-See the header extract with the function declarations below. 
-
-```c
-/**
- * Define the data path to the language models. MUST BE CALLED FIRST
- * @param dataRootPath the path to the language models root folder
- */
-__stdcall void SetDbPath(const char *dataRootPath);
-
-/***
- * Loads a language model associated with the specified language code. ONLY AFTER SetDbPath
- * @param languageCode the code of the language to load
- */
-__stdcall void LoadAnalysisLanguageModel(const char *languageCode);
-
-/***
- * Loads a language model associated with the specified language code for transformation (translation and paraphrase) applications. ONLY AFTER SetDbPath
- * @param languageCode the code of the target language to load
- */
-__stdcall void LoadGenerationLanguageModel(const char *languageCode);
-
-/***
- * Loads a customized language model associated with the specified language code. ONLY AFTER SetDbPath
- * @param languageCode the code of the language to load
- * @param customizationSuffix the suffix for the customization add-on model
- */
-__stdcall void LoadCustomizedAnalysisLanguageModel(const char *languageCode, const char *customizationSuffix);
-
-/***
- * Unloads a language model associated with the specified language code.
- * @param languageCode the code of the language to unload
- */
-__stdcall void UnloadAnalysisLanguageModel(const char *languageCode);
-
-/**
- * Links a callback function used when a language model is loaded.
- * @param ptrProgressCallback a void function with a double parameter; the parameter will be a number in range 0 thru 1 indicating the progress
- */
- void SetProgressCallback(void __stdcall ptrProgressCallback(double));
-
-/**
- * Activates the lazy loading mode.
- */
-void ActivateLazyLoading();
-
-/**
- * Gets whether the lazy loading mode is active.
- * @return true if the lazy loading mode is active, false the lazy loading mode is not active.
- */
-bool IsLazyLoadingActive();
-
-/**
- * Parse the specified content in the specified language using the specified settings
- * @param language the language code
- * @param content the text to parse (UTF-8 encoding)
- * @param settings the settings according to the settings specs
- * @return a JSON structure according to the response specs
- */
-__stdcall const char* Parse(const char * language, const char * content, const char * settings);
-
-/**
- * **NOT ACTIVE YET**. Parse the specified content with session-scope modifications to the language model. 
- * @param language the language code
- * @param content the text to parse (UTF-8 encoding)
- * @param settings the settings according to the settings specs
- * @param privateLexicon an array of JSON lexeme entries
- * @param privateFamilies an array of JSON family entries
- * @param privatePragmatics an array of JSON pragmatic / commonsense cue entries
- * @return a JSON structure according to the response specs
- */
-__stdcall const char* ParseCustomSession(const char * language, const char * content,
-                                            const char * settings, const char * privateLexicon,
-                                            const char * privateFamilies,
-                                            const char * privatePragmatics);
-                                            
-/**
- * Translate or paraphrase a string from one language to another
- * @param sourceLanguage the source language code
- * @param targetLanguage the target language code
- * @param content the text to transform (UTF-8 encoding)
- * @param settings the settings according to the [settings specs](tisane_settings.md)
- * @return a translated or paraphrased string
- */
-__stdcall EXPORT_FUNCTION const char* Transform(const char * sourceLanguage, const char * targetLanguage,
-        const char * content, const char * settings);
-
-
-```
 
 ### Advanced
 
@@ -249,6 +132,9 @@ How to:
 
 #### Tisane.Runtime.Service.exe.config Reference
 
+* _DbPath_ the path of the root folder containing the language models.
+* _PreloadLanguages_ a list of codes of the language models to preload
+* _FeedbackUrl_ a URL to send all the input to (optional)
 
 #### Tisane.TestConsole.exe.Config Reference
 
