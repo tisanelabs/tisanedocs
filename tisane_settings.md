@@ -21,6 +21,8 @@ All settings are optional. To leave all settings to default, simply provide an e
 
 `disable_spellcheck` (boolean) - determines whether the automatic spellchecking is to be disabled. Default: `false`.
 
+`lowercase_spellcheck_only` (boolean) - determines whether the automatic spellchecking is only to be applied to words in lowercase. Default: `false`
+
 `domain_factors` (set of pairs made of strings and numbers) - provides a session-scope cues for the domains of discourse. This is a powerful tool that allows tailoring the result based on the use case. The format is, family ID of the domain as a key and the multiplication factor as a value (e.g. _"12345": 5.0_). For example, when processing text looking for criminal activity, we may want to set domains relevant to drugs, firearms, crime, higher: `"domain_factors": {"31058": 5.0, "45220": 5.0, "14112": 5.0, "14509": 3.0, "28309": 5.0, "43220": 5.0, "34581": 5.0}`. The same device can be used to eliminate noise coming from domains we know are irrelevant by setting the factor to a value lower than 1. 
 
 `subscope` (boolean) - enables sub-scope parsing, for scenarios like hashtag, URL parsing, and obfuscated content (e.g. _ihateyou_). 
