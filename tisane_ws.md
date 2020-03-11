@@ -4,28 +4,46 @@
 **Table of Contents**
 
 - [Getting Started](#getting-started)
+  * [Deployment](#deployment)
 - [What's in the Package](#whats-in-the-package)
   * [Language Models](#language-models)
   * [Binaries](#binaries)
 - [Integration](#integration)
-  * [Preloading vs. Lazy Loading](#preloading-vs-lazy-loading)
   * [.NET](#net)
   * [Native C/C++ Applications](#native-cc-applications)
   * [Advanced](#advanced)
     + [LaMP](#lamp)
-    + [Deploying by Language Packs](#deploying-by-language-packs)
+    + [Tisane.Runtime.Service.exe.config Reference](#tisaneruntimeserviceexeconfig-reference)
     + [Tisane.TestConsole.exe.Config Reference](#tisanetestconsoleexeconfig-reference)
 
 ## Getting Started
 
-Tisane Embedded Library allows seamless integration of the Tisane functionality in desktop and server applications, eliminating the need to connect to a remote server. 
-The two principal components of the package are the runtime library and the set of language models. The library runs on POSIX C/C++ and uses RocksDB to store its language models, making it natively cross-platform on OSes that support POSIX. 
+Tisane Web Service allows remote client applications use Tisane. 
+The two principal components of the package are the executables and the set of language models. The core Tisane library runs on POSIX C/C++ and uses RocksDB to store its language models. On Windows, the library is encapsulated in a .NET assembly, relying on Windows Communication Framework to power the web methods. 
 
 <p align="center">
-  <img src="https://github.com/tisanelabs/tisanedocs/blob/master/images/tisaneRuntimeArchitecture.png" alt="Tisane architecture"/>
+  <img src="https://github.com/tisanelabs/tisanedocs/blob/master/images/tisaneRuntimeNET.png" alt="Tisane architecture"/>
 </p>
 
-Deployment is accomplished by copying the components. The libraries are not COM-based, so no registration is necessary. To start your tests, simply extract the files from the archive into a folder of your choice. (However, bear in mind that the sample PowerShell scripts point at _C:\Tisane_.)
+### Deployment
+
+Deployment is accomplished by copying the components, and registering the service, which can be then accessed and controlled from Windows Services Manager:
+
+1. Create a folder (e.g. _C:\Tisane\_)
+2. Extract the archive to the folder
+3. Set the _DbPath_ parameter in _Tisane.Runtime.Service.exe.config_ to your root Tisane path (mind the backslash). 
+4. **As an Administrator**, execute the following in Powershell or Command Prompt (substitute _C:\Tisane_ to your Tisane root path): 
+
+```
+cd C:\Tisane
+.\Tisane.Runtime.Service.exe -i
+```
+
+To start your tests, simply extract the files from the archive into a folder of your choice. (However, bear in mind that the sample PowerShell scripts point at _C:\Tisane_.)
+
+<p align="center">
+  <img src="https://github.com/tisanelabs/tisanedocs/blob/master/images/tisaneWindowsService.png" alt="Tisane services"/>
+</p>
 
 ## What's in the Package
 
@@ -64,22 +82,12 @@ The Windows distribution contains
   * Microsoft.Win32.Primitives.dll - a standard .NET assembly
   * Newtonsoft.Json.dll - a JSON parsing assembly
   * System.\*.dll - other standard .NET assemblies
+  * Tisane.Runtime.Service.exe - the Windows service
 * Tisane.TestConsole.exe - diagnostic / test desktop UI tool relying on the .NET libraries
 * Tisane.TestConsole.exe.Config - a configuration file for the Tisane Test Console tool. (See reference in the _Tisane.TestConsole.exe.Config Reference_ chapter.)
+* Tisane.Runtime.Service.exe.config - a sample configuration file for Tisane Web Service. (See reference in the _Tisane.Runtime.Service.exe.config Reference_ chapter.)
 
 ## Integration
-
-### Preloading vs. Lazy Loading
-
-As parsing language is a complex matter, the language models are complex structures. To optimize the user experience in different scenarios, Tisane provides two ways to work with the language models:
-
-1. **Lazy loading**. Minor portions of the language model are loaded at the initialization, while the lexicon is queried on the go. The initialization takes a couple of seconds, but the initial queries may be a bit slower. Overall, the lazy loading requires roughly 20 to 40 Mb RAM per language, with additional fixed amount of 40 to 60 Mb. 
-2. **Preloading**. The entire language model, except for the spellchecking dictionary, is preloaded into the RAM at the initialization time. On a modern midrange machine, equipped with an SSD, it takes between 20 to 40 seconds. The lexicon takes about 400 to 800 Mb per language, with additional fixed amount of 40 to 60 Mb. Callback interface is provided to display the progress when loading.
-
-The preloading mode is recommended for server-based applications and cases when there is a lot of data to analyze. For incidental usage, as well as low-spec hardware, we recommend lazy loading.
-
-It is also possible to preload some language models and let other language models function in the lazy loading mode. Note that once the lazy loading mode is on, it cannot be turned off for the lifetime of the Tisane library. 
-
 ### .NET
 
 Requirements: .NET 4.7
@@ -239,9 +247,8 @@ How to:
 * [add terms in LaMP](https://tisane.ai/knowledgebase/adding-new-terms/)
 * [add patterns and commonsense cues in LaMP](https://tisane.ai/knowledgebase/adding-commonsense/)
 
-#### Deploying by Language Packs
+#### Tisane.Runtime.Service.exe.config Reference
 
-Language models are stored in folders. If you do not want to distribute all the language models, include in distribution only folders starting with the codes of the languages you intend to supply, and the three folders _family_, _role_, and _pragma_.
 
 #### Tisane.TestConsole.exe.Config Reference
 
