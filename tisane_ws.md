@@ -8,13 +8,10 @@
 - [What's in the Package](#whats-in-the-package)
   * [Language Models](#language-models)
   * [Binaries](#binaries)
-- [Integration](#integration)
-  * [.NET](#net)
-  * [Native C/C++ Applications](#native-cc-applications)
-  * [Advanced](#advanced)
-    + [LaMP](#lamp)
-    + [Tisane.Runtime.Service.exe.config Reference](#tisaneruntimeserviceexeconfig-reference)
-    + [Tisane.TestConsole.exe.Config Reference](#tisanetestconsoleexeconfig-reference)
+- [API Reference](#api-reference)
+- [Tisane.Runtime.Service.exe.config Reference](#tisaneruntimeserviceexeconfig-reference)
+- [Tisane.TestConsole.exe.Config Reference](#tisanetestconsoleexeconfig-reference)
+- [LaMP](#lamp)
 
 ## Getting Started
 
@@ -110,9 +107,32 @@ The Windows distribution contains
 * Tisane.TestConsole.exe.Config - a configuration file for the Tisane Test Console tool. (See reference in the _Tisane.TestConsole.exe.Config Reference_ chapter.)
 * Tisane.Runtime.Service.exe.config - a sample configuration file for Tisane Web Service. (See reference in the _Tisane.Runtime.Service.exe.config Reference_ chapter.)
 
-### Advanced
+## API Reference
 
-#### LaMP
+See [/parse method reference on Tisane Labs' developers portal](https://dev.tisane.ai/docs/services/5a3b6668a3511b11cc292655/operations/5a3b7177a3511b11cc29265c). No need to use the API keys. 
+
+## Tisane.Runtime.Service.exe.config Reference
+
+* _DbPath_ the path of the root folder containing the language models.
+* _PreloadLanguages_ a list of codes of the language models to preload
+* _FeedbackUrl_ a URL to send all the input to (optional)
+
+## Tisane.TestConsole.exe.Config Reference
+
+The Test Console configuration file is a standard .NET configuration file. The Tisane-specific settings are under the _\<appSettings\>_ tag. 
+
+* _DbPath_ the path of the root folder containing the language models.
+* _CustomSubdir_ the subdirectory for the customized datastores, when customized language model overrides are used. 
+* _language_ the ISO code of the default language.
+* _content_ the content to load at the Test Console startup.
+* _PreloadLanguages_ a list of codes of the language models to preload
+* _lazy_loading_ determines whether the lazy loading mode is on. The language models are to be loaded fully when first accessed and the setting is _False_; if _True_, the lazy loading mode is on. The user cannot switch it off from the UI.
+* _trace_from_section_ contains the name of a section in the process where the tracer will start logging messages to the log file.
+* _log_name_ contains the name of the log file for the Tisane core library only. If empty, the logging is turned off. Please note that this is to debug the parsing process only. 
+* _Log_ is a pathname of a trace file used to dump higher-level debugging info, e.g. the libraries, the folders, the physical integrity of the files, etc.
+* the rest of settings directly reference the attributes in the [Tisane settings](tisane_settings.md).
+
+## LaMP
 
 Tisane language models are created and edited using a web-based tool called LaMP (Language Model Portal). LaMP is a Windows Communication Foundation web service using Microsoft SQL Server as a backend database. An Angular-based front-end is provided, however, it is possible to substitute it with a custom front-end calling the LaMP API. 
 
@@ -130,23 +150,4 @@ How to:
 * [add terms in LaMP](https://tisane.ai/knowledgebase/adding-new-terms/)
 * [add patterns and commonsense cues in LaMP](https://tisane.ai/knowledgebase/adding-commonsense/)
 
-#### Tisane.Runtime.Service.exe.config Reference
 
-* _DbPath_ the path of the root folder containing the language models.
-* _PreloadLanguages_ a list of codes of the language models to preload
-* _FeedbackUrl_ a URL to send all the input to (optional)
-
-#### Tisane.TestConsole.exe.Config Reference
-
-The Test Console configuration file is a standard .NET configuration file. The Tisane-specific settings are under the _\<appSettings\>_ tag. 
-
-* _DbPath_ the path of the root folder containing the language models.
-* _CustomSubdir_ the subdirectory for the customized datastores, when customized language model overrides are used. 
-* _language_ the ISO code of the default language.
-* _content_ the content to load at the Test Console startup.
-* _PreloadLanguages_ a list of codes of the language models to preload
-* _lazy_loading_ determines whether the lazy loading mode is on. The language models are to be loaded fully when first accessed and the setting is _False_; if _True_, the lazy loading mode is on. The user cannot switch it off from the UI.
-* _trace_from_section_ contains the name of a section in the process where the tracer will start logging messages to the log file.
-* _log_name_ contains the name of the log file for the Tisane core library only. If empty, the logging is turned off. Please note that this is to debug the parsing process only. 
-* _Log_ is a pathname of a trace file used to dump higher-level debugging info, e.g. the libraries, the folders, the physical integrity of the files, etc.
-* the rest of settings directly reference the attributes in the [Tisane settings](tisane_settings.md).
