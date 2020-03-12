@@ -117,6 +117,8 @@ See [/parse method reference on Tisane Labs' developers portal](https://dev.tisa
 * _PreloadLanguages_ a list of codes of the language models to preload
 * _FeedbackUrl_ a URL to send all the input to (optional)
 
+As Tisane Web Service runs on [Windows Communication Foundation](https://en.wikipedia.org/wiki/Windows_Communication_Foundation), anything supported by WCF can be used by Tisane Web Service (packet signing, SOAP, advanced authentication, etc.). [Read more on configuring WCF services](https://docs.microsoft.com/en-us/dotnet/framework/wcf/configuring-services-using-configuration-files).
+
 ## Tisane.TestConsole.exe.Config Reference
 
 The Test Console configuration file is a standard .NET configuration file. The Tisane-specific settings are under the _\<appSettings\>_ tag. 
@@ -134,7 +136,10 @@ The Test Console configuration file is a standard .NET configuration file. The T
 
 ## LaMP
 
-Tisane language models are created and edited using a web-based tool called LaMP (Language Model Portal). LaMP is a Windows Communication Foundation web service using Microsoft SQL Server as a backend database. An Angular-based front-end is provided, however, it is possible to substitute it with a custom front-end calling the LaMP API. 
+Tisane language models are created and edited using a web-based tool called LaMP (Language Model Portal). LaMP is a 
+
+
+ommunication Foundation web service using Microsoft SQL Server as a backend database. An Angular-based front-end is provided, however, it is possible to substitute it with a custom front-end calling the LaMP API. 
 
 <p align="center">
   <img src="https://github.com/tisanelabs/tisanedocs/blob/master/images/tisaneDBArchitecture.png" alt="Tisane architecture"/>
