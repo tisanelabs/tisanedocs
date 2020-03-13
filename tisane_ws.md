@@ -31,6 +31,7 @@ Tisane requires:
 * 4 Gb RAM or better
 
 Faster drives (e.g. SSD) are recommended. 
+Tisane Web Service is self-hosted. There is no need to install IIS. 
 
 ### Deployment
 
