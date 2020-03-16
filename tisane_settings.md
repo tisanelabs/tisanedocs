@@ -73,6 +73,7 @@ Only the native Tisane standards (codes and descriptions) support style and sema
 * `iab_code` - IAB topic taxonomy code
 * `iab_description` - IAB topic taxonomy description
 * `native` - Tisane domain description, coming from the family description (default)
+* `wikidata` - Wikidata code
 
 `sentiment_analysis_type` (string) - (RESERVED) the type of the sentiment analysis strategy. The values are:
 
