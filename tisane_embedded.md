@@ -240,7 +240,7 @@ How to:
 
 #### Deploying by Language Packs
 
-Language models are stored in folders. If you do not want to distribute all the language models, include in distribution only folders starting with the codes of the languages you intend to supply, and the three folders _family_, _role_, and _pragma_.
+Language models are stored in folders. If you do not want to distribute all the language models, include in distribution only folders starting with the codes of the languages you intend to supply, and the three folders _family_, _role_, and _pragma_. E.g. if you need only English, deploy all the _en-_ folders plus  _family_, _role_, and _pragma_.
 
 #### Tisane.TestConsole.exe.Config Reference
 
