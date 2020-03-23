@@ -136,32 +136,32 @@ See the header extract with the function declarations below.
  * Define the data path to the language models. MUST BE CALLED FIRST
  * @param dataRootPath the path to the language models root folder
  */
-__stdcall void SetDbPath(const char *dataRootPath);
+void __stdcall SetDbPath(const char *dataRootPath);
 
 /***
  * Loads a language model associated with the specified language code. ONLY AFTER SetDbPath
  * @param languageCode the code of the language to load
  */
-__stdcall void LoadAnalysisLanguageModel(const char *languageCode);
+void __stdcall LoadAnalysisLanguageModel(const char *languageCode);
 
 /***
  * Loads a language model associated with the specified language code for transformation (translation and paraphrase) applications. ONLY AFTER SetDbPath
  * @param languageCode the code of the target language to load
  */
-__stdcall void LoadGenerationLanguageModel(const char *languageCode);
+void __stdcall LoadGenerationLanguageModel(const char *languageCode);
 
 /***
  * Loads a customized language model associated with the specified language code. ONLY AFTER SetDbPath
  * @param languageCode the code of the language to load
  * @param customizationSuffix the suffix for the customization add-on model
  */
-__stdcall void LoadCustomizedAnalysisLanguageModel(const char *languageCode, const char *customizationSuffix);
+void __stdcall LoadCustomizedAnalysisLanguageModel(const char *languageCode, const char *customizationSuffix);
 
 /***
  * Unloads a language model associated with the specified language code.
  * @param languageCode the code of the language to unload
  */
-__stdcall void UnloadAnalysisLanguageModel(const char *languageCode);
+void __stdcall UnloadAnalysisLanguageModel(const char *languageCode);
 
 /**
  * Links a callback function used when a language model is loaded.
