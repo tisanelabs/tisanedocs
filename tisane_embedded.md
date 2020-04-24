@@ -187,7 +187,7 @@ bool IsLazyLoadingActive();
  * @param settings the settings according to the settings specs
  * @return a JSON structure according to the response specs
  */
-__stdcall const char* Parse(const char * language, const char * content, const char * settings);
+ const char* __stdcall Parse(const char * language, const char * content, const char * settings);
 
 /**
  * **NOT ACTIVE YET**. Parse the specified content with session-scope modifications to the language model. 
@@ -199,7 +199,7 @@ __stdcall const char* Parse(const char * language, const char * content, const c
  * @param privatePragmatics an array of JSON pragmatic / commonsense cue entries
  * @return a JSON structure according to the response specs
  */
-__stdcall const char* ParseCustomSession(const char * language, const char * content,
+const char* __stdcall ParseCustomSession(const char * language, const char * content,
                                             const char * settings, const char * privateLexicon,
                                             const char * privateFamilies,
                                             const char * privatePragmatics);
@@ -212,9 +212,8 @@ __stdcall const char* ParseCustomSession(const char * language, const char * con
  * @param settings the settings according to the [settings specs](tisane_settings.md)
  * @return a translated or paraphrased string
  */
-__stdcall EXPORT_FUNCTION const char* Transform(const char * sourceLanguage, const char * targetLanguage,
+const char* __stdcall Transform(const char * sourceLanguage, const char * targetLanguage,
         const char * content, const char * settings);
-
 
 ```
 
