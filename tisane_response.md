@@ -183,9 +183,8 @@ Every lexical chunk ("word") structure in the `words` array contains:
 
 ##### Advanced
 
-For lexical chunks only:
+For lexical items only (not punctuation):
 
-* `role` (string) - semantic role, like `agent` or `patient`. Note that in passive voice, the semantic roles are reverse to the syntactic roles. E.g. in a sentence like _The car was driven by David_, _car_ is the patient, and _David_ is the agent.
 * `numeric_value` (floating-point number) - the numeric value, if the chunk has a value associated with it
 * `family` (integer number) - the ID of the family associated with the disambiguated word-sense of the lexical chunk
 * `definition` (string) - the definition of the family, if the `fetch_definitions` [setting](tisane_settings.md#output-customization) is set to `true`
@@ -193,6 +192,17 @@ For lexical chunks only:
 * `nondictionary_pattern` (integer number) - the ID of a non-dictionary pattern that matched, if the word was not in the language model but was classified by the nondictionary heuristics
 * `style` (array of strings or structures) - generates the list of style features associated with the `word`. Only if the `feature_standard` [setting] is set to `native` or `description`
 * `semantics` (array of strings or structures) - generates the list of semantic features associated with the `word`. Only if the `feature_standard` [setting] is set to `native` or `description`
+* `role` (string) - semantic role in the sentence or a phrase. Note that in passive voice, the semantic roles are reverse to the syntactic roles. E.g. in a sentence like _The car was driven by David_, _car_ is the patient, and _David_ is the agent. Valid semantic roles with the standard set of Tisane's language models are:
+  * `agent` - word or phrase enacting the action 
+  * `patient` - word or phrase being directly impacted by the action
+  * `verb` - the primary action (only for verbs)
+  * `list_item` - an item in a list of items
+  * `given_name` - the given name part of a person's name
+  * `surname` - the surname part of a person's name
+  * `middle_name` - the middle name (or patronymic) part of a person's name
+  * `title` - the title part of a person's name, e.g. _Mr_
+  * `social_role` - the social role part of a person's name, e.g. _Haji_
+  * `suffix` - the suffix part of a person's name
 * `segmentation` (structure) - generates info about the selected segmentation, if there are several possibilities to segment the current lexical chunk and the `deterministic` [setting] is set to `false`. A segmentation is simply an array of `word` structures. 
 * `other_segmentations` (array of structures) - generates info about the segmentations deemed incorrect during the disambiguation process. Every entry has the same structure as the `segmentation` structure.
 * `nbest_senses` (array of structures) - when the `deterministic` [setting] is set to `false`, generates a set of hypotheses that were deemed incorrect by the disambiguation process. Every hypothesis contains the following attributes: `grammar`, `style`, and `semantics`, identical in structure to their counterparts above; and `senses`, an array of word-senses associated with every hypothesis. Every sense has a `family`, which is an ID of the associated family; and, if the `fetch_definitions` [setting](tisane_settings.md#output-customization) is set to `true`, `definition` and `ref_lemma` of that family.
