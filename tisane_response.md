@@ -218,7 +218,7 @@ Every parse tree, or more accurately, parse forest, is a collection of phrases, 
 
 At the top level of the parse, there is an array of root phrases under the `phrases` element and the numeric `id` associated with it. Every phrase may have children phrases. Every phrase has the following attributes:
 
-* `type` (string) - a [Penn treebank phrase tag](http://nliblog.com/wiki/knowledge-base-2/nlp-1-natural-language-processing/penn-treebank/penn-treebank-phrase-level-tags/) denoting the type of the phrase, e.g. _S_, _VP_, _NP_, etc.
+* `type` (string) - a [Penn treebank phrase tag](https://gist.github.com/nlothian/9240750) denoting the type of the phrase, e.g. _S_, _VP_, _NP_, etc.
 * `family` (integer number) - an ID of the phrase family
 * `offset` (unsigned integer) - a zero-based offset where the phrase starts
 * `length` (unsigned integer) - the span of the phrase
