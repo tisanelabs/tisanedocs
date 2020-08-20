@@ -94,7 +94,7 @@ The section exists if named entities are detected and the `entities` [setting](t
 Every entity contains the following attributes:
 
 * `name` (string) - the most complete name of the entity in the text of all the mentions
-* `ref_lemma` (string) - when available, the dictionary form of the entity in the reference language (English) regardless of the input language
+* `ref_lemma` (string) - when available, the dictionary form of the entity in the reference language (English) regardless of the input language. If the input is in English, it may not be a lemma of a different lexeme in the same family
 * `type` (string) - a string or an array of strings specifying the type of the entity, such as `person`, `organization`, `numeric`, `amount_of_money`, `place`. Certain entities, like countries, may have several types (because a country is both a `place` and an `organization`).
 * `mentions` (array of objects) - a set of instances where the entity was mentioned in the text
 
@@ -174,6 +174,7 @@ Every lexical chunk ("word") structure in the `words` array contains:
 
 * `type` (string) - the type of the element: `punctuation` for punctuation marks, `numeral` for numerals, or `word` for everything else
 * `text` (string) - the text
+* `lemma` (string) - the lemma (the `lemma` setting must be set to `true`)
 * `offset` (unsigned integer) - zero-based offset where the element starts
 * `length` (unsigned integer) - length of the element
 * `corrected_text` (string) - if a misspelling is detected, the corrected form
