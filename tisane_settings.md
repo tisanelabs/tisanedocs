@@ -57,7 +57,7 @@ All settings are optional. To leave all settings to default, simply provide an e
 `words` (boolean) - output the lexical chunks / words for every sentence (default: `false`). In languages without white spaces (Chinese, Japanese, Thai), the tokens are tokenized words. In languages with compounds (e.g. German, Dutch, Norwegian), the compounds are split. 
 
   `fetch_definitions` (boolean) - include definitions of the words in the output (default: `false`). Only relevant when the `words` setting is `true`
-  `fetch_lemma` (boolean) - include lemmas of the words in the output (default: `false`). Only relevant when the `words` setting is `true`
+  `fetch_lemmas` (boolean) - include lemmas of the words in the output (default: `false`). Only relevant when the `words` setting is `true`
 
 `parses` (boolean) - output parse forests of phrases
 
