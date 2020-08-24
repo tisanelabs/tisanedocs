@@ -18,6 +18,8 @@ All settings are optional. To leave all settings to default, simply provide an e
 * `shortpost` - a microblogging post, e.g. a tweet.
 * `longform` - a long post or an article.
 * `proofread` - a post which was proofread. In the proofread posts, the spellchecking is switched off. 
+* `alias` - a nickname, composed of one or several words
+* `search` - a search query
 
 `disable_spellcheck` (boolean) - determines whether the automatic spellchecking is to be disabled. Default: `false`.
 
@@ -28,6 +30,12 @@ All settings are optional. To leave all settings to default, simply provide an e
 `subscope` (boolean) - enables sub-scope parsing, for scenarios like hashtag, URL parsing, and obfuscated content (e.g. _ihateyou_). 
 
 `when` (date string, format YYYY-MM-DD) - indicates when the utterance was uttered. (TO BE IMPLEMENTED) The purpose is to prune word senses that were not available at a particular point in time. For example, the words _troll_, _mail_, and _post_ had nothing to do with the Internet 300 years ago because there was no Internet, and so in a text that was written hundreds of years ago, we should ignore the word senses that emerged only recently.
+
+`disable_phrases` (boolean) - skips phrasal patterns completely (disables most of abuse and sentiment detection).
+
+`disable_commonsense_cues` (boolean) - skips commonsense cue matching (disables most of abuse and sentiment detection).
+
+`min_generic_frequency` (int in range -10 to 10) - ignores all interpretations less common than the specified frequency grade, if they don't belong to a domain.  
 
 #### Output Customization
 
@@ -44,6 +52,8 @@ All settings are optional. To leave all settings to default, simply provide an e
  * `topic_stats` (boolean) - include coverage statistics in the topic output (default: `false`). When set, the topic is an object containing the attributes `topic` (string) and `coverage` (floating-point number). The coverage indicates a share of sentences touching the topic among all the sentences. 
  * `optimize_topics` (boolean) - if `true`, the less specific topics are removed if they are parts of the more specific topics. For example, when the topic is `cryptocurrency`, the optimization removes `finance`.  
  
+`explain` (boolean) - provide human-readable explanation (under `explanation` attribute) for the sentiment and abuse snippets. 
+ 
 `words` (boolean) - output the lexical chunks / words for every sentence (default: `false`). In languages without white spaces (Chinese, Japanese, Thai), the tokens are tokenized words. In languages with compounds (e.g. German, Dutch, Norwegian), the compounds are split. 
 
   `fetch_definitions` (boolean) - include definitions of the words in the output (default: `false`). Only relevant when the `words` setting is `true`
@@ -55,6 +65,8 @@ All settings are optional. To leave all settings to default, simply provide an e
 
 `snippets` (boolean) - include the text snippets in the abuse, sentiment, and entities sections (default: `false`)
 
+`allow_verbose_big_text` (boolean) - normally, low-level data input (controlled by `words` and `parses` switches) is disabled for texts over certain size to avoid performance issues. This flag, when set to `true`, removes the limit. 
+
 
 #### Standards and Formats
 
@@ -64,6 +76,7 @@ All settings are optional. To leave all settings to default, simply provide an e
 * `penn`: [Penn treebank tags](https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html)
 * `native`: Tisane native feature codes
 * `description`: Tisane native feature descriptions
+* `gloss`: [glossing tags](https://en.wikipedia.org/wiki/List_of_glossing_abbreviations)
 
 Only the native Tisane standards (codes and descriptions) support style and semantic features.
 
