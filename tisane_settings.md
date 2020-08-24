@@ -37,6 +37,8 @@ All settings are optional. To leave all settings to default, simply provide an e
 
 `min_generic_frequency` (int in range -10 to 10) - ignores all interpretations less common than the specified frequency grade, if they don't belong to a domain.  
 
+`entity` (string) - if the content is a compound entity (e.g. _person_, _place_, _organization_), instructs to ignore all phrases except the specified type.
+
 #### Output Customization
 
 `abuse` (boolean) - output instances of abusive content (default: `true`)
