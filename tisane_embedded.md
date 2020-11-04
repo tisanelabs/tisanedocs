@@ -104,6 +104,14 @@ For .NET applications, we supply a .NET assembly wrapping the core library and a
   * _settings_ - the settings JSON object according to the [settings specs](tisane_settings.md)
   * returns a translated or paraphrased text
 
+* Method:        **Normalize** (System.String _dirtyText_)
+  * _dirtyText_ - the text to normalize or clean up
+  * returns a cleaned-up text without OCR artifacts, email headers, quoted email text, boilerplate signatures, and fixed-length text breaks (like in Gutenberg Project e-books)
+
+* Method:        **ExtractText** (System.String _webpageText_)
+  * _webpageText_ - a web page content to extract text from
+  * returns an extracted text from a web page content
+
 
 The [TisaneTest PowerShell script](TisaneTest.ps1) allows launching the .NET assembly and testing the settings without the need to recompile or modify your application. 
 
