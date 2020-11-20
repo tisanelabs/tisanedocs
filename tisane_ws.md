@@ -31,7 +31,7 @@ Tisane requires:
 * 4 Gb RAM or better
 
 Faster drives (e.g. SSD) are recommended. 
-Tisane Web Service is self-hosted. There is no need to install IIS. 
+Tisane Web Service is self-hosted. There is no need to install IIS. For production-level loads, allocate about 1.2 Gb per instance. For example, a machine with 8 Gb RAM can comfortably run 5 instances of Tisane on different ports. 
 
 ### Deployment
 
