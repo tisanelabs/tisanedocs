@@ -46,7 +46,7 @@ Deployment is accomplished by copying the components, and registering the servic
 cd C:\Tisane
 .\Tisane.Runtime.Service.exe -i
 ```
-If everything worked, you will see your Tisane service in the Windows Services Manager. The service description contains the name of the folder where it's been deployed. 
+If everything worked as intended, you will see your Tisane service in the Windows Services Manager. The service description contains the name of the folder where it's been deployed. 
 
 <p align="center">
   <img src="https://github.com/tisanelabs/tisanedocs/blob/master/images/tisaneWindowsService.png" alt="Tisane services"/>
@@ -64,7 +64,30 @@ Several instances of Tisane may run in parallel. They can access the same lingui
 cd C:\MyNewTisaneFolder
 .\Tisane.Runtime.Service.exe -i
 ```
-If everything worked, you will see your Tisane service in the Windows Services Manager. 
+If everything worked as intended, you will see your Tisane service in the Windows Services Manager. 
+
+#### Setting up a Secure Connection
+
+**On Windows:**
+
+1. Provision your certificate. You will need a PFX. If you only have a CRT file, [convert it online](https://www.sslshopper.com/ssl-converter.html).
+2. Open the certificate management console.
+3. Navigate to _Users\Public_ and _Import_ the certificate into Trusted (“root”) folder.
+4. Open the certificate you just imported and copy the _Thumbprint_ attribute.
+5. Run the following command as administrator: `netsh http add sslcert ipport=0.0.0.0:443 certhash=my_thumbprint_without_spaces appid={00000000-0000-0000-0000-000000000000}`. Substitute _my_thumbprint_without_spaces_ by the thumbprint attribute you copied (without spaces). Modify the port, if needed. If you’re getting error 1312, either try moving the certificate to the personal store, or make sure you’re importing PFX (not CRT or CER). There must be a tiny icon of a key over the icon of the certificate in the store.
+6. For every instance, edit its configuration (_Tisane.Runtime.Service.exe.config_). Two modifications are needed:
+ * Under `webHttpBinding`, inside the `binding` tag, add:
+ 
+        <security mode="Transport">
+          <transport clientCredentialType="None" proxyCredentialType="None" />
+        </security>
+
+ * Inside the `baseAddresses` tag, add:
+
+      <add baseAddress="https://localhost:443/" />
+
+Restart the service.
+
 
 ## What's in the Package
 
