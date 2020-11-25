@@ -5,6 +5,8 @@
 
 - [Getting Started](#getting-started)
   * [Deployment](#deployment)
+    * [Running Several Instances](#running-several-instances)
+    * [Setting up a Secure Connection](#setting-up-a-secure-connection)
 - [What's in the Package](#whats-in-the-package)
   * [Language Models](#language-models)
   * [Binaries](#binaries)
