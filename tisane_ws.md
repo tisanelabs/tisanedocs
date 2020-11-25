@@ -83,8 +83,9 @@ If everything worked as intended, you will see your Tisane service in the Window
         </security>
 
  * Inside the `baseAddresses` tag, add:
-
+ ```
       <add baseAddress="https://localhost:443/" />
+ ```
 
 Restart the service.
 
