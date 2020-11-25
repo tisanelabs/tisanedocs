@@ -1,5 +1,5 @@
 
-# Tisane Web Service Documentation
+# Tisane Web Service
 
 **Table of Contents**
 
