@@ -129,25 +129,17 @@ The lexeme family connection edit screen is shown on the figure below. The selec
 
 The merge lexemes function calls a modal Lexeme Merge page shown below. If the user confirms, */mergeLexemes* method is called after which the entire page is refreshed. 
 
-![Lexicon merge](wiki-attachment:lexemeMerge.png)
 
 #### Advanced Criteria
 
 The advanced criteria used by the lexeme family connection shown on the figure below will be reused in other modules. 
 
-![Advanced criteria lookup](wiki-attachment:tisaneAdvancedCriteriaList.png)
-
 The user will be able to create / update / delete advanced criteria sets from the lookup page, using the edit page shown below. The hypernyms and the required phrases can be selected by the family selection UI built for the knowledge graph.
 
-![Advanced criteria edit 1](wiki-attachment:tisaneAdvancedCriteriaEdit1.png)
-![Advanced criteria edit 2](wiki-attachment:tisaneAdvancedCriteriaEdit2.png)
 
 #### Lexeme Edit
 
 The lexeme edit screen is a rich but standard screen that allows modifying the attributes of a lexeme, as shown on the figure below. 
-
-![Lexeme edit 1](wiki-attachment:tisaneLexemeEdit1.png)
-![Lexeme edit 2](wiki-attachment:tisaneLexiconEdit2.png)
 
 The lexeme merge screen shown below exists for one purpose, to merge two duplicate lexemes. 
 
@@ -155,13 +147,9 @@ The lexeme merge screen shown below exists for one purpose, to merge two duplica
 
 The trace link opens the screen as shown below. 
 
-![tisaneTagTrace.png](wiki-attachment:tisaneTagTrace.png)
-
 #### Inflection Table
 
 The *Inflection* button opens the inflection table page shown below:
-
-![Inflections](wiki-attachment:tisaneInflectionsSpanish.png)
 
 The purpose of the table is to show the inflections associated with the specified lexeme. Some of the inflections come from the database (they have an *inflectionId* attribute), others are dynamically generated. The linguists will be able to override the dynamic ones by editing them in the Inflection Edit screen. 
 
@@ -171,30 +159,19 @@ The web service tries to sort the inflections into paper-dictionary-like view. H
 
 The page is called by the button with the eye icon in the Inflection Table and uses the content of the `generatedBy` attribute. 
 
-![Matched inflection](wiki-attachment:tisaneMatchedInflection.png)
-
 ##### Unmatched Inflections
 
 The page is called by the Unmatched Inflections button in the Inflection Table and displays the content of the `failures` attribute. 
 
-![Unmatched inflections](wiki-attachment:tisaneInflectionsDidNotMatch.png)
-
 #### Inflection Edit
 
 Clicking on the *Edit* button in the Inflections Table calls the inflection edit screen shown below:
-
-![Inflection Edit](wiki-attachment:tisaneInflectionEdit1.png)
-![Inflection Edit](wiki-attachment:tisaneInflectionEdit2.png)
-![Inflection Edit](wiki-attachment:tisaneInflectionEdit3.png)
 
 **NOTE** that if there is an inflection override, then *GET /inflection?id=my_id* must be called to obtain the attributes being edited. If a new inflection override is being defined, the *features* and the *text* must be passed on to initialize the features and the text in the Inflection Edit. 
 
 #### Root Lookup
 
 The root lookup screen is used by multiple modules and allows looking up roots. 
-
-![Root lookup](wiki-attachment:tisaneRootLookup.png)
-
 
 #### API
 
