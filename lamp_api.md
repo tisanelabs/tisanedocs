@@ -366,3 +366,63 @@ Attributes (inflection edit):
 |   inflectionStyle         |  Inflection style | Taken from *inflectionFeatures*. |
 
 
+## Commonsense Cues
+
+The commonsense cues (or pragmatics) are linked from two locations. One is the menu item ("commonsense cues"). The other one is the phrase module, in which every family has a dedicated button, that calls the commonsense cues module with the `family` argument. Otherwise, it's a fairly standard two-level list view and two edit pages. 
+
+List view as shown on the figure below.
+
+
+Edit as shown on the figure below. Note that the element clause edit must be reused from the phrase module. 
+
+
+Pragmatic Element Edit as shown on the figure below. It is identical to the one in the phrase module, except for the "subtree" tab which only appears here. 
+
+### API
+
+|     Method         |   Verb   |   Query parameter(s)     | Request body      |      Notes                                 |
+| ------------------ |:--------:|:-------------------------|:-----------|:-----------------------------------------------------------|
+|  /commonsenseList      | GET      | **arg** search argument |   None     | Fetches the list of commonsense cues in the specified range. **If the family is specified, the filtering is a combination of the filtering by the current family and by the range**. |
+|                    |          | **type** search argument type (id, text, range) |     |                      |
+|                    |          | **family** family ID - if none, specify 0 |     |                      |
+|  /commonsense  | GET      | **id** the ID of the commonsense cue  |   None     | Fetches a commonsense cue for editing. |
+|  /commonsense | POST      | None | A structure containing the attributes of the newly created record.   | Creates a new commonsense cue. |
+|  /commonsense | PUT      | None |   Edited attributes.    | Saves changes to an existing record. |
+|  /commonsense | DELETE      | **id** the ID of the commonsense cue to delete |   None    | Deletes a commonsense cue. |
+
+
+The attributes in the list view are: 
+
+|     Name         |  Label / Description       |         Notes                                 |
+|:-----------------|:---------------------------|:---------------------------------------------------|
+| familyId         |     Family ID of the cue          | The family ID (read-only). |
+| familyDescription    |     Family description | The description of the family. |
+| labels          |     List of family labels        | Labels assigned by the commonsense cues in the family. Plain strings |
+| sets            |     Commonsense cue sets             | A list of commonsense cue sets associated with the family. |
+| sets/id            |     Commonsense cue set ID             | A unique ID of the common sense cue. |
+| sets/description   |     Commonsense cue set description             | A description of the commonsense cue. |
+| sets/languageOnly  |     Only language where the cue is used             | If exists, a language where the commonsense cue is used. |
+| sets/labels            |     Commonsense cue set labels             | Labels assigned by the commonsense cue set. |
+
+The attributes in the edit page are:
+
+|     Name         |  Label / Description       |         Notes                                 |
+|:-----------------|:---------------------------|:---------------------------------------------------|
+| id         |     ID of the cue          | The ID of the cue (read-only). |
+| description    |     Description    | The cue description. |
+| family         |     Family ID of the cue          | The family ID. |
+| onlyLanguageId         |   Only for language        | The ID of the language to which the cue is restricted (optional; the user must be able to clear it). |
+| compilationTags   |    Compilation tags          | A comma-delimited list of tags used in the compilation process. |
+| format    |     Format  | The format to which the cue is limited. The values are: `unspecified` / `review` / `proofread` / `shortpost` / `longform` / `dialogue` |
+| sentimentAnalysisType | Sentiment analysis type | The sentiment analysis type to which the cue is limited. The values are: `products_and_services` / `entity` / `creative_content_review` / `political_essay` (in the descriptions, underscores are to be replaces by spaces). |
+| domainFamily | Domain   | The family ID of a domain to which the cue is limited. Use /findFamilies to look up for the families. |
+| doNotInherit  | Do not inherit | If checked, the cue is not inherited by child families. |
+| strict        | Strict         | If checked, the cue is "strict". |
+| prerequisiteGraphFamily | Prerequisite graph | A family which is a prerequisited to the cue. |
+| prerequisiteGraphFamily2 | Prerequisite graph 2 | Another family which is a prerequisited to the cue. |
+| spawnGraphFamily     | Spawn graph  | A graph to spawn if the current cue is matched. |
+| unverified           | Unverified   | If checked, the cue is not verified by a human. |
+| notes                | Notes        | Linguist's notes.   |
+| features            | Features        | Features associated with the cue.   |
+| elements            | Element clauses        | Element clauses that make up the cue.   |
+
