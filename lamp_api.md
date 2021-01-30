@@ -4,7 +4,14 @@
 
 #### Family
 
-A family represents a real-world concept, whether it is an action, an attribute, or a physical object. Families are crosslingual; they have 
+A family represents a real-world concept, whether it is an action, an attribute, or a physical object. Families may have links to other families:
+
+* **hypernyms** - more generic families
+* **hyponyms** - less generic families
+* **domains** - topics of the current family
+* **domain members** - families for which the current family is a topic
+
+Families are crosslingual: a _truck_ is always a _vehicle_, no matter what the language is. 
 
 #### Lexeme
 
