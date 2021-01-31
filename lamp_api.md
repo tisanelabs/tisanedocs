@@ -15,7 +15,7 @@ Families are crosslingual: a _truck_ is always a _vehicle_, no matter what the l
 
 #### Lexeme
 
-A lexeme is a word with all its inflected forms. The inflected forms may be actual entities in the database or generated dynamically based on the grammar rules. A lexeme may be linked to one or more families. 
+A lexeme is a word with all its inflected forms. The inflected forms may be actual records in the database or generated dynamically based on the grammar rules. A lexeme is usually linked to one or more families. (Lexemes not linked to families are ignored in runtime.)
 
 #### Commonsense Cue
 
