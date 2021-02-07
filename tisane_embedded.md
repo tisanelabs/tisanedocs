@@ -92,13 +92,13 @@ For .NET applications, we supply a .NET assembly wrapping the core library and a
 * Assembly name:  **Tisane.Runtime.dll**
 * Class name:     **Tisane.Server**. Note that while the class is thread-safe, there are no attributes and the class is stateless, but the underlying C/C++ object changes its state. 
 * Method:         **Parse** (System.String _language_, System.String _content_, System.String _settings_)
-  * _language_ - the code of the language model
+  * _language_ - the code of the language model. Values `*` and `?` or a set of codes delimited by vertical bar (e.g. `de|fr|ja`) invoke language autodetection.
   * _content_  - the text to parse
   * _settings_ - the settings JSON object according to the [settings specs](tisane_settings.md)
   * returns a JSON structure according to the [response specs](tisane_response.md)
 
 * Method:         **Transform** (System.String _sourceLanguage_, System.String _targetLanguage_, System.String _content_, System.String _settings_)
-  * _sourceLanguage_ - the code of the language model for the input content
+  * _sourceLanguage_ - the code of the language model for the input content. Values `*` and `?` or a set of codes delimited by vertical bar (e.g. `de|fr|ja`) invoke language autodetection.
   * _targetLanguage_ - the code of the target language model
   * _content_  - the text to transform
   * _settings_ - the settings JSON object according to the [settings specs](tisane_settings.md)
