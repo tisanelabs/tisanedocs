@@ -104,6 +104,13 @@ For .NET applications, we supply a .NET assembly wrapping the core library and a
   * _settings_ - the settings JSON object according to the [settings specs](tisane_settings.md)
   * returns a translated or paraphrased text
 
+* Method:         **DetectLanguage** (System.String _content_, System.String _likelyLanguages_, System.String _delimiter_)
+  * _content_  - the content to analyze
+  * _likelyLanguages_ - the codes of the likely language model for the input content, delimited by a vertical bar (e.g. `de|fr|ja`). Values `*` and `?` or an empty string means the languages are unknown.
+  * _delimiter_ - an optional custom delimiter regex (Google RE2 flavor) that allows custom chunking of the text. E.g. it is possible to probe at the level of a sentence, a paragraph, a sub-sentence, etc. 
+  * returns the language breakdown in the specified content as a JSON string.
+
+
 #### Cleanup
 
 * Method:        **Normalize** (System.String _dirtyText_)
