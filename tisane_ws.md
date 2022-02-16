@@ -17,8 +17,8 @@
 
 ## Getting Started
 
-Tisane Web Service allows remote client applications use Tisane. 
-The two principal components of the package are the executables and the set of language models. The core Tisane library runs on POSIX C/C++ and uses RocksDB to store its language models. On Windows, the library is encapsulated in a .NET assembly, relying on Windows Communication Framework to power the web methods. 
+Tisane Web Service allows local and remote client applications use Tisane functionality. 
+The package contains the executables and the set of language models. The core Tisane library runs on POSIX C/C++ and uses RocksDB to store its language models. On Windows, the library is encapsulated in a .NET assembly, relying on Windows Communication Framework to power the web methods. 
 
 <p align="center">
   <img src="https://github.com/tisanelabs/tisanedocs/blob/master/images/tisaneRuntimeNET.png" alt="Tisane architecture"/>
