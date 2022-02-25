@@ -1,7 +1,7 @@
 ﻿
 Param(
      [Parameter(Mandatory = $true, valueFromPipeline=$true, HelpMessage="Tisane API key: ")][String] $APIkey, # from https://dev.tisane.ai/developer
-     [Parameter(Mandatory = $true, valueFromPipeline=$true, HelpMessage="Language code: ")][String] $languageCode, # assuming the spreadsheet is monolingual
+     [Parameter(Mandatory = $true, valueFromPipeline=$true, HelpMessage="Language code: ")][String] $languageCode, # Tisane language code
      [Parameter(Mandatory = $true, valueFromPipeline=$true, HelpMessage="Spreadsheet path: ")][String] $path, # for both the input and the output
      [Parameter(Mandatory = $true, valueFromPipeline=$true, HelpMessage="Spreadsheet local name: ")][String] $filename # input spreadsheet
 )
