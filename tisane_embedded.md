@@ -9,6 +9,8 @@
 - [Integration](#integration)
   * [Preloading vs. Lazy Loading](#preloading-vs-lazy-loading)
   * [.NET](#net)
+    + [Language Model Access](#language-model-access)
+    + [Cleanup](#cleanup)
   * [Native C/C++ Applications](#native-cc-applications)
   * [Advanced](#advanced)
     + [LaMP](#lamp)
@@ -110,6 +112,29 @@ For .NET applications, we supply a .NET assembly wrapping the core library and a
   * _delimiter_ - an optional custom delimiter regex (Google RE2 flavor) that allows custom chunking of the text. E.g. it is possible to probe at the level of a sentence, a paragraph, a sub-sentence, etc. 
   * returns the language breakdown in the specified content as a JSON string.
 
+#### Language Model Access
+
+The language model access methods allow inspecting elements in the language models.
+
+* Method:   **GetFamilyData** (int id)
+ * _id_ - the ID of the family to get
+ * returns a JSON document (System.IO.Stream) containing family description, definition, and other attributes
+
+* Method:  **ListSenses**  (System.String language, System.String word)
+ * _language_ - the language code. **Automatic detection is not supported.**
+ * _word_ - a word (including multi-word expressions) to look up. Does not have to be a lemma. 
+ * returns a JSON document (System.IO.Stream) containing the families linked to the specified word (IDs, descriptions, and features)
+
+* Method:  **ListHypernyms** (int family, int maxLevel)
+ * _family_ - the ID of the family to list the hypernyms for
+ * _maxLevel_ - the maximum number of levels to go up
+ * returns a JSON document (System.IO.Stream) containing the hypernyms linked to the specified word (IDs, descriptions, and features)
+
+* public  **GetInflectedForms** (System.String language, int lexeme, int family)
+ * _language_ - the language code. **Automatic detection is not supported.**
+ * _lexeme_ - the ID of the family to list the inflected forms for
+ * _family_ - the ID of the lexeme to list the inflected forms for
+ * returns a JSON document (System.IO.Stream) containing the families linked to the specified word (IDs, descriptions, and features)
 
 #### Cleanup
 
